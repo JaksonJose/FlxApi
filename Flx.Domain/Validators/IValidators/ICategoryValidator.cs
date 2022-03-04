@@ -1,9 +1,10 @@
 ﻿using Flx.Domain.Domains;
+using Flx.Domain.Responses;
 
 namespace Flx.Domain.IValidators
 {
     public interface ICategoryValidator
     {
-        public bool InErrorResponse(List<Category> response);
+        public InquiryResponse<Category> ValidateCategoryList(List<Category> category);
     }
 }

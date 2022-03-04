@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using Flx.Data.Repository.IRepository;
+using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
+using Flx.Domain.IValidators;
 using Flx.Domain.Responses;
 using System.Data;
 using static Dapper.SqlBuilder;
@@ -20,10 +22,12 @@ namespace Flx.Data.Repository
         #endregion
 
         private readonly IDbConnection _dbConnection;
+        private readonly ICategoryValidator _categoryValidator;
 
-        public CategoryRepo(IDbConnection dbconnection)
+        public CategoryRepo(IDbConnection dbconnection, ICategoryValidator categoryValidator)
         {
             _dbConnection = dbconnection;
+            _categoryValidator = categoryValidator;
         }
 
         /// <summary>
@@ -39,7 +43,9 @@ namespace Flx.Data.Repository
             string querySql = string.Join(' ', "SELECT", SelectAllColumns, "FROM", SelectFromTableName);
             Template sqlTemplate = builder.AddTemplate(querySql);
 
-            IEnumerable<Category> responseData = await _dbConnection.QueryAsync<Category>(sqlTemplate.RawSql);
+            IEnumerable<Category> responseData = await _dbConnection.QueryAsync<Category>(sqlTemplate.RawSql);      
+
+            response = _categoryValidator.ValidateCategoryList(responseData.ToList());
 
             response.ResponseData = responseData.ToList();
 

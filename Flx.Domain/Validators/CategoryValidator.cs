@@ -1,20 +1,23 @@
 ﻿using Flx.Domain.Domains;
 using Flx.Domain.IValidators;
+using Flx.Domain.Responses;
 
 namespace Flx.Domain.Validators
 {
     public class CategoryValidator : ICategoryValidator
-    {   
-        public bool InErrorResponse(List<Category> response)
+    {
+        public InquiryResponse<Category> ValidateCategoryList(List<Category> categoryList)
         {
-            bool inError = false;
+            InquiryResponse<Category> categoryListResponse = new();
 
-            if (!response.Any())
+            if (!categoryList.Any())
             {
-                inError = true;
+                categoryListResponse.Messages.Add("Category is null");
             }
 
-            return inError;
-        }
+            // Must to validate Subcategories, Courses and etc... 
+
+            return categoryListResponse;
+        }   
     }
 }
