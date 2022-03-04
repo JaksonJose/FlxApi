@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Flx.Data.Repository.IRepository;
 using Flx.Domain.Domains;
+using Flx.Domain.Responses;
 using System.Data;
 using static Dapper.SqlBuilder;
 
@@ -29,16 +30,20 @@ namespace Flx.Data.Repository
         /// Fetch All courses.
         /// </summary>
         /// <returns>List<Course></returns>
-        public List<Category> FetchAllCategories()
-        {         
+        public async Task<InquiryResponse<Category>> FetchAllCategoriesAsync()
+        {
+            InquiryResponse<Category> response = new();
+
             //Build the SQL
             SqlBuilder builder = new();
             string querySql = string.Join(' ', "SELECT", SelectAllColumns, "FROM", SelectFromTableName);
             Template sqlTemplate = builder.AddTemplate(querySql);
 
-            IEnumerable<Category> response = _dbConnection.Query<Category>(sqlTemplate.RawSql);
+            IEnumerable<Category> responseData = await _dbConnection.QueryAsync<Category>(sqlTemplate.RawSql);
 
-            return response.ToList();
+            response.ResponseData = responseData.ToList();
+
+            return response;
         }
 
         /// <summary>
@@ -46,8 +51,10 @@ namespace Flx.Data.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns>List<Course></returns>
-        public async Task<Category> FetchCategoryByIdAsync(long categoryId)
+        public async Task<InquiryResponse<Category>> FetchCategoryByIdAsync(long categoryId)
         {
+            InquiryResponse<Category> response = new();
+
             //Build the SQL
             SqlBuilder builder = new();
             string querySql = string.Join(' ', "SELECT", SelectAllColumns, "FROM", SelectFromTableName, LockedJoin, WhereCaluse);
@@ -56,7 +63,7 @@ namespace Flx.Data.Repository
 
             var categoryDic = new Dictionary<int, Category>();
 
-            IEnumerable<Category> response = await _dbConnection.QueryAsync<Category, SubCategory, Category>(template.RawSql, (category, subcategory) =>
+            IEnumerable<Category> responseData = await _dbConnection.QueryAsync<Category, SubCategory, Category>(template.RawSql, (category, subcategory) =>
             {
                 Category currentCategory = new();
 
@@ -75,7 +82,9 @@ namespace Flx.Data.Repository
                 return currentCategory;
             }, splitOn: "Id");
 
-            return response.FirstOrDefault();
+            response.ResponseData.Add(responseData.FirstOrDefault());
+
+            return response;
         }
     }
 }

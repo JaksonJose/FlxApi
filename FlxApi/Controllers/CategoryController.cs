@@ -1,6 +1,7 @@
 ﻿using Flx.Data.Repository.IRepository;
 using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
+using Flx.Domain.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlxApi.Controllers
@@ -19,21 +20,20 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet]
-        public List<Category> GetAllCategories()
+        public async Task<List<Category>> GetAllCategories()
         {
-            List<Category> response = _categoryRepo.FetchAllCategories();
-            List<Category> category = _categoryBac.CategoryList(response);
+            InquiryResponse<Category> response = await _categoryRepo.FetchAllCategoriesAsync();
+            //List<Category> category = _categoryBac.CategoryList(response);
 
-            return category;
+            return response.ResponseData;
         }
 
         [HttpGet("{id}")]
         public async Task<Category> GetCategoryByIdAsync(long id)
         {
-            Category response = await _categoryRepo.FetchCategoryByIdAsync(id);
-            
+            InquiryResponse<Category> response = await _categoryRepo.FetchCategoryByIdAsync(id);            
 
-            return response;
+            return response.ResponseData.FirstOrDefault();
         }
     }
 }

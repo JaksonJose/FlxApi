@@ -5,14 +5,16 @@ namespace Flx.Domain.Validators
 {
     public class CategoryValidator : ICategoryValidator
     {   
-        public string ValidateCategoryList(List<Category> category)
+        public bool InErrorResponse(List<Category> response)
         {
-            if (category.Any() && category.Count > 0)
+            bool inError = false;
+
+            if (!response.Any())
             {
-                return "The Category is not null";
+                inError = true;
             }
 
-            return "Categoies Can't be null";
+            return inError;
         }
     }
 }

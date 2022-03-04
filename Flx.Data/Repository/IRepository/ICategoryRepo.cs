@@ -1,12 +1,12 @@
 ﻿using Flx.Domain.Domains;
-
+using Flx.Domain.Responses;
 
 namespace Flx.Data.Repository.IRepository
 {
     public interface ICategoryRepo
     {
-        public List<Category> FetchAllCategories();
+        public Task<InquiryResponse<Category>> FetchAllCategoriesAsync();
 
-        public Task<Category> FetchCategoryByIdAsync(long categoryId);
+        public Task<InquiryResponse<Category>> FetchCategoryByIdAsync(long categoryId);
     }
 }

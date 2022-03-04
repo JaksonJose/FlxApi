@@ -13,7 +13,7 @@ namespace Flx.Domain.BAC
         }
         public List<Category> CategoryList(List<Category> category)
         {
-            var response = _categoryValidator.ValidateCategoryList(category);
+            //var response = _categoryValidator.ValidateCategoryList(category);
 
             return category;
         }    

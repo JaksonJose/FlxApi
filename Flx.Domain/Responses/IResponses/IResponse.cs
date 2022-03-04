@@ -1,0 +1,11 @@
+﻿
+namespace Flx.Domain.Responses.IResponses
+{
+    public interface IResponse
+    {
+        /// <summary>
+        /// Does it have any messages
+        /// </summary>
+        bool HasAnyMessages { get; }
+    }
+}
