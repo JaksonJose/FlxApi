@@ -23,7 +23,6 @@ namespace FlxApi.Controllers
         public async Task<List<Category>> GetAllCategories()
         {
             InquiryResponse<Category> response = await _categoryRepo.FetchAllCategoriesAsync();
-            List<Category> category = _categoryBac.CategoryList(response.ResponseData);
 
             return response.ResponseData;
         }

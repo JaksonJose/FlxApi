@@ -1,6 +1,7 @@
 ﻿using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
 using Flx.Domain.IValidators;
+using Flx.Domain.Responses;
 
 namespace Flx.Domain.BAC
 {
@@ -11,11 +12,16 @@ namespace Flx.Domain.BAC
         {
             this._categoryValidator = categoryValidator;
         }
-        public List<Category> CategoryList(List<Category> category)
+        public InquiryResponse<Category> CategoryList(IEnumerable<Category> categoryList)
         {
-            //var response = _categoryValidator.InErrorResponse(category);
+            InquiryResponse<Category> response = new();
+            List<Category> categories = categoryList.ToList();
 
-            return category;
+            this._categoryValidator.ValidateCategoryList(categories);
+
+            response.ResponseData = categories;
+
+            return response;
         }    
     }
 }

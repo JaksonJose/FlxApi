@@ -22,12 +22,12 @@ namespace Flx.Data.Repository
         #endregion
 
         private readonly IDbConnection _dbConnection;
-        private readonly ICategoryValidator _categoryValidator;
+        private readonly ICategoryBac _categoryBac;
 
-        public CategoryRepo(IDbConnection dbconnection, ICategoryValidator categoryValidator)
+        public CategoryRepo(IDbConnection dbconnection, ICategoryBac categoryBac)
         {
             _dbConnection = dbconnection;
-            _categoryValidator = categoryValidator;
+            _categoryBac = categoryBac;
         }
 
         /// <summary>
@@ -37,17 +37,16 @@ namespace Flx.Data.Repository
         public async Task<InquiryResponse<Category>> FetchAllCategoriesAsync()
         {
             InquiryResponse<Category> response = new();
+            List<Category> categoryList = new();
 
             //Build the SQL
             SqlBuilder builder = new();
             string querySql = string.Join(' ', "SELECT", SelectAllColumns, "FROM", SelectFromTableName);
             Template sqlTemplate = builder.AddTemplate(querySql);
 
-            IEnumerable<Category> responseData = await _dbConnection.QueryAsync<Category>(sqlTemplate.RawSql);      
-
-            response = _categoryValidator.ValidateCategoryList(responseData.ToList());
-
-            response.ResponseData = responseData.ToList();
+            IEnumerable<Category> responseData = await _dbConnection.QueryAsync<Category>(sqlTemplate.RawSql);
+            
+            response = _categoryBac.CategoryList(responseData);
 
             return response;
         }
