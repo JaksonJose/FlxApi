@@ -9,7 +9,7 @@ namespace Flx.Domain.Domains
     public class SubCategory
     {
         public int Id { get; set; }
-        public int CourseId { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Flx.Domain.Models;
 
 namespace Flx.Domain.Domains
 {
@@ -12,7 +8,7 @@ namespace Flx.Domain.Domains
         public string Name { get; set; }
         public string Description { get; set; }
         public int Duration { get; set; }
-        public string ImgUrl { get; set; }
+        public List<Image> ImgUrl { get; set; }
         public List<SubCategory> SubCategories { get; set; }
     }
 }

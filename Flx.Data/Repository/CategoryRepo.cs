@@ -16,7 +16,7 @@ namespace Flx.Data.Repository
         private static readonly string SelectAllColumns = "*";
 
         private readonly string SelectFromTableName = "Category";
-        private readonly string LockedJoin = "INNER JOIN [dbo].[SubCategory] sc on sc.CourseId = @CategoryId";
+        private readonly string LockedJoin = "LEFT OUTER JOIN [dbo].[SubCategory] sc on sc.CategoryId = @CategoryId";
         private readonly string WhereCaluse = "WHERE Category.Id = @CategoryId";
 
         #endregion
