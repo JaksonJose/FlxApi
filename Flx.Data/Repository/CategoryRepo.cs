@@ -6,6 +6,7 @@ using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using System.Data;
 using static Dapper.SqlBuilder;
+using static Dapper.SqlMapper;
 
 namespace Flx.Data.Repository
 {
@@ -13,59 +14,28 @@ namespace Flx.Data.Repository
     {
         #region SQL
 
-        private static readonly string SelectAllColumns = "*";
-
-        private readonly string SelectFromTableName = "Category";
-        private readonly string LockedJoin = "LEFT OUTER JOIN [dbo].[SubCategory] sb on sb.CategoryId = Category.Id";
-        private readonly string WhereCaluse = "WHERE Category.Id = @CategoryId";
+        private static readonly string SelectAllCategories = "SELECT * FROM Category;";
+        private static readonly string SelectAllSubcategories = "SELECT * FROM Subcategory;";
+        private static readonly string SelectAllImages = "SELECT * FROM Image;";
 
         #endregion
 
         private readonly IDbConnection _dbConnection;
         private readonly ICategoryBac _categoryBac;
 
-        public CategoryRepo(IDbConnection dbconnection, ICategoryBac categoryBac)
+        public CategoryRepo(IDbConnection dbconnection)
         {
             _dbConnection = dbconnection;
-            _categoryBac = categoryBac;
         }
 
         /// <summary>
-        /// Fetch All courses.
+        /// Fetch All categories.
         /// </summary>
         /// <returns>List<Course></returns>
         public async Task<InquiryResponse<Category>> FetchAllCategoriesAsync()
         {
             InquiryResponse<Category> response = new();
-            List<Category> categoryList = new();
-
-            //Build the SQL
-            SqlBuilder builder = new();
-            string querySql = string.Join(' ', "SELECT", SelectAllColumns, "FROM", SelectFromTableName, LockedJoin);
-            Template sqlTemplate = builder.AddTemplate(querySql);
-
-            var categoryDic = new Dictionary<int, Category>();
-
-            IEnumerable<Category> responseData = await _dbConnection.QueryAsync<Category, SubCategory, Category>(sqlTemplate.RawSql, (category, subcategory) =>
-            {
-                Category currentCategory = new();
-
-                if (!categoryDic.TryGetValue(category.Id, out currentCategory!))
-                {
-                    categoryDic.Add(category.Id, currentCategory = category);
-                }
-
-                if (currentCategory.SubCategories == null)
-                {
-                    currentCategory.SubCategories = new List<SubCategory>();
-                }
-
-                currentCategory.SubCategories.Add(subcategory);
-
-                return currentCategory;
-            }, splitOn: "Id");
-       
-            response.ResponseData.AddRange(responseData.Distinct());           
+            response.ResponseData = await this.FindAll();
 
             return response;
         }
@@ -79,42 +49,39 @@ namespace Flx.Data.Repository
         {
             InquiryResponse<Category> response = new();
 
-            //Build the SQL
-            SqlBuilder builder = new();
-            string querySql = string.Join(' ', "SELECT", SelectAllColumns, "FROM", SelectFromTableName, LockedJoin, WhereCaluse);
-            string sql = querySql.Replace("@CategoryId", $"{categoryId}");
-            Template template = builder.AddTemplate(sql);
+            List<Category> categories = await this.FindAll();
 
-            var categoryDic = new Dictionary<int, Category>();
+            Category selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
 
-            IEnumerable<Category> responseData = await _dbConnection.QueryAsync<Category, SubCategory, Category>(template.RawSql, (category, subcategory) =>
-            {
-                Category currentCategory = new();
-
-                if (!categoryDic.TryGetValue(category.Id, out currentCategory!))
-                {
-                    categoryDic.Add(category.Id, currentCategory = category);
-                }
-
-                if (currentCategory.SubCategories == null)
-                {
-                    currentCategory.SubCategories = new List<SubCategory>();
-                }
-
-                currentCategory.SubCategories.Add(subcategory);
-
-                return currentCategory;
-            }, splitOn: "Id");
-
-            IEnumerable<Image> responseImage = await _dbConnection.QueryAsync<Image>("Select * from Image where CategoryId = 1");
-
-            foreach(var category in responseData.Distinct())
-            {
-                category.Images = responseImage.ToList();
-                response.ResponseData.Add(category);
-            }
+            response.ResponseData.Add(selectedCategory);
 
             return response;
+        }
+
+        /// <summary>
+        /// Find all categories and match the entities
+        /// </summary>
+        /// <returns></returns>
+        private async Task<List<Category>> FindAll()
+        {
+            //Build the SQL
+            SqlBuilder builder = new();
+            string querySql = string.Join(' ', SelectAllCategories, SelectAllSubcategories, SelectAllImages);
+            Template sqlTemplate = builder.AddTemplate(querySql);
+
+            var responseData = await _dbConnection.QueryMultipleAsync(sqlTemplate.RawSql);
+
+            List<Category> categories = responseData.Read<Category>().ToList();
+            List<SubCategory> subCategories = responseData.Read<SubCategory>().ToList();
+            List<Image> images = responseData.Read<Image>().ToList();
+
+            categories.ForEach(c =>
+            {
+                c.SubCategories = subCategories.Where(sb => sb.CategoryId == c.Id).ToList();
+                c.Images = images.Where(im => im.CategoryId == c.Id).ToList();
+            });
+
+            return categories;
         }
     }
 }
