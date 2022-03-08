@@ -32,12 +32,21 @@ namespace Flx.Data.Repository
         /// Fetch All categories.
         /// </summary>
         /// <returns>InquiryResponse</returns>
-        public async Task<InquiryResponse<Category>> FetchAllCategoriesAsync()
+        public async Task<CategoryInquiryResponse> FetchAllCategoriesAsync()
         {
-            InquiryResponse<Category> response = new();
-            response.ResponseData = await this.FindAll();
-
-            return response;
+            CategoryInquiryResponse response = new();
+            
+            try
+            {
+             
+                response.ResponseData = await this.FindAll();
+                return response;
+            } 
+            catch (Exception ex)
+            {
+                //response.HasErrorMessages = "Error Metodo FetchAllCategoriesAsync";
+                return response;
+            }     
         }
 
         /// <summary>
@@ -45,9 +54,9 @@ namespace Flx.Data.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns>InquiryResponse</returns>
-        public async Task<InquiryResponse<Category>> FetchCategoryByIdAsync(long categoryId)
+        public async Task<CategoryInquiryResponse> FetchCategoryByIdAsync(long categoryId)
         {
-            InquiryResponse<Category> response = new();
+            CategoryInquiryResponse response = new();
 
             List<Category> categories = await this.FindAll();
 

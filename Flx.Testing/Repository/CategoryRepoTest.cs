@@ -17,7 +17,7 @@ namespace Flx.Testing.Repository
             //Arrange
             Category category = new();
 
-            InquiryResponse<Category> response = new();
+            CategoryInquiryResponse<Category> response = new();
 
             //Act
 

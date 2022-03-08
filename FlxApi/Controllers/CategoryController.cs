@@ -22,7 +22,7 @@ namespace FlxApi.Controllers
         [HttpGet]
         public async Task<List<Category>> GetAllCategories()
         {
-            InquiryResponse<Category> response = await _categoryRepo.FetchAllCategoriesAsync();
+            CategoryInquiryResponse response = await _categoryRepo.FetchAllCategoriesAsync();
 
             return response.ResponseData;
         }
@@ -30,7 +30,7 @@ namespace FlxApi.Controllers
         [HttpGet("{id}")]
         public async Task<Category> GetCategoryByIdAsync(long id)
         {
-            InquiryResponse<Category> response = await _categoryRepo.FetchCategoryByIdAsync(id);            
+            CategoryInquiryResponse response = await _categoryRepo.FetchCategoryByIdAsync(id);            
 
             return response.ResponseData.FirstOrDefault();
         }

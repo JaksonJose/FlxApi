@@ -1,6 +1,6 @@
-﻿using Flx.Domain.Responses.IResponses;
+﻿using Flx.Shared.Responses.IResponses;
 
-namespace Flx.Domain.Responses
+namespace Flx.Shared.Responses
 {
      public class InquiryResponse<T> : Response, IInquiryResponse<T>
     {

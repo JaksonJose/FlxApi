@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Domain", "Flx.Domain\Fl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Data", "Flx.Data\Flx.Data.csproj", "{75E7AD11-1FF5-4C2E-9A79-170119F4844B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flx.Testing", "Flx.Testing\Flx.Testing.csproj", "{32B66317-15C0-4CEA-8077-B822A1F6AD5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Testing", "Flx.Testing\Flx.Testing.csproj", "{32B66317-15C0-4CEA-8077-B822A1F6AD5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flx.Shared", "Flx.Shared\Flx.Shared.csproj", "{CACD4A58-3165-4374-9858-C0FA6E20FFAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{32B66317-15C0-4CEA-8077-B822A1F6AD5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32B66317-15C0-4CEA-8077-B822A1F6AD5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32B66317-15C0-4CEA-8077-B822A1F6AD5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CACD4A58-3165-4374-9858-C0FA6E20FFAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CACD4A58-3165-4374-9858-C0FA6E20FFAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CACD4A58-3165-4374-9858-C0FA6E20FFAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CACD4A58-3165-4374-9858-C0FA6E20FFAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

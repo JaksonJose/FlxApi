@@ -5,8 +5,8 @@ namespace Flx.Data.Repository.IRepository
 {
     public interface ICategoryRepo
     {
-        public Task<InquiryResponse<Category>> FetchAllCategoriesAsync();
+        public Task<CategoryInquiryResponse> FetchAllCategoriesAsync();
 
-        public Task<InquiryResponse<Category>> FetchCategoryByIdAsync(long categoryId);
+        public Task<CategoryInquiryResponse> FetchCategoryByIdAsync(long categoryId);
     }
 }

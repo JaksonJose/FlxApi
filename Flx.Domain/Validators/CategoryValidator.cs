@@ -6,9 +6,9 @@ namespace Flx.Domain.Validators
 {
     public class CategoryValidator : ICategoryValidator
     {
-        public InquiryResponse<Category> ValidateCategoryList(List<Category> categoryList)
+        public CategoryInquiryResponse ValidateCategoryList(List<Category> categoryList)
         {
-            InquiryResponse<Category> categoryListResponse = new();
+            CategoryInquiryResponse categoryListResponse = new();
 
             if (!categoryList.Any())
             {
