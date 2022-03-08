@@ -17,16 +17,19 @@ namespace Flx.Data.Repository
         private static readonly string SelectAllCategories = "SELECT * FROM Category;";
         private static readonly string SelectAllSubcategories = "SELECT * FROM Subcategory;";
         private static readonly string SelectAllImages = "SELECT * FROM Image;";
+        private static readonly string InsertCategory = "INSERT INTO Category (Name, Description, Duration) VALUES";
 
         #endregion
 
+        #region Properties
         private readonly IDbConnection _dbConnection;
         private readonly ICategoryBac _categoryBac;
+        #endregion
 
         public CategoryRepo(IDbConnection dbconnection)
         {
             _dbConnection = dbconnection;
-        }
+        }     
 
         /// <summary>
         /// Fetch All categories.
@@ -74,6 +77,21 @@ namespace Flx.Data.Repository
         }
 
         /// <summary>
+        /// Create Category
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public async Task InsertCategory(Category category)
+        {
+            //Build the SQL
+            SqlBuilder builder = new();
+            string querySql = string.Join(' ', InsertCategory, $"('{category.Name}', '{category.Description}', {category.Duration});");
+            Template sqlTemplate = builder.AddTemplate(querySql);
+
+            await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
+        }
+
+        /// <summary>
         /// Find all categories and match the entities
         /// </summary>
         /// <returns>List<Category></returns>
@@ -97,6 +115,6 @@ namespace Flx.Data.Repository
             });
 
             return categories;
-        }
+        }  
     }
 }

@@ -23,6 +23,11 @@ namespace Flx.Shared.Responses
         #endregion
 
         #region Public Method
+        public Response AddErrorMessage(string text)
+        {
+            Messages.Add(new Message(MessageTypeEnum.Error, text));
+            return this;
+        }
 
         public Response AddExceptionMessage(string text)
         {

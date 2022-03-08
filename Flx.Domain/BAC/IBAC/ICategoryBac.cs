@@ -5,5 +5,6 @@ namespace Flx.Domain.BAC.IBAC
 {
     public interface ICategoryBac
     {
+        public CategoryInquiryResponse InsertCategoryBac(Category category);
     }
 }

@@ -34,5 +34,18 @@ namespace FlxApi.Controllers
 
             return response.ResponseData.FirstOrDefault();
         }
+
+        [HttpPost]
+        public async Task CreateCategory([FromBody] Category category)
+        {
+            CategoryInquiryResponse response = _categoryBac.InsertCategoryBac(category);
+
+            if (response.HasAnyMessages)
+            {
+                return;
+            }
+
+            await _categoryRepo.InsertCategory(category);
+        }
     }
 }

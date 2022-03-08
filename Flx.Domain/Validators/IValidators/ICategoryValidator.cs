@@ -5,6 +5,6 @@ namespace Flx.Domain.IValidators
 {
     public interface ICategoryValidator
     {
-        public CategoryInquiryResponse ValidateCategoryList(List<Category> category);
+        public CategoryInquiryResponse ValidateCategory(Category category);
     }
 }
