@@ -2,6 +2,7 @@
 using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
 using Flx.Domain.Responses;
+using Flx.Shared.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlxApi.Controllers
@@ -36,16 +37,17 @@ namespace FlxApi.Controllers
         }
 
         [HttpPost]
-        public async Task CreateCategory([FromBody] Category category)
+        public async Task InsertCategoryAsync([FromBody] Category category)
         {
-            CategoryInquiryResponse response = _categoryBac.InsertCategoryBac(category);
+            ModelOperationRequest<Category> request = new(category);
+            CategoryInquiryResponse response = _categoryBac.InsertCategoryBac(request);
 
             if (response.HasAnyMessages)
             {
                 return;
             }
 
-            await _categoryRepo.InsertCategory(category);
+            await _categoryRepo.InsertCategoryAsync(request);
         }
     }
 }

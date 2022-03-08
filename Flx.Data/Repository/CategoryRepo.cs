@@ -4,6 +4,7 @@ using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
+using Flx.Shared.Requests;
 using System.Data;
 using static Dapper.SqlBuilder;
 using static Dapper.SqlMapper;
@@ -81,11 +82,11 @@ namespace Flx.Data.Repository
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public async Task InsertCategory(Category category)
+        public async Task InsertCategoryAsync(ModelOperationRequest<Category> request)
         {
             //Build the SQL
             SqlBuilder builder = new();
-            string querySql = string.Join(' ', InsertCategory, $"('{category.Name}', '{category.Description}', {category.Duration});");
+            string querySql = string.Join(' ', InsertCategory, $"('{request.Model.Name}', '{request.Model.Description}', {request.Model.Duration});");
             Template sqlTemplate = builder.AddTemplate(querySql);
 
             await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);

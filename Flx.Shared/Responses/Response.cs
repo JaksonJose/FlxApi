@@ -23,12 +23,22 @@ namespace Flx.Shared.Responses
         #endregion
 
         #region Public Method
+        /// <summary>
+        /// Add Error Message to Response Object.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public Response AddErrorMessage(string text)
         {
             Messages.Add(new Message(MessageTypeEnum.Error, text));
             return this;
         }
 
+        /// <summary>
+        /// Add Exception Message to Response Object.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public Response AddExceptionMessage(string text)
         {
             Messages.Add(new Message(MessageTypeEnum.Exception, text));
@@ -38,7 +48,11 @@ namespace Flx.Shared.Responses
         #endregion
 
         #region Private Method
-
+        /// <summary>
+        /// Verify if messages was added in the object.
+        /// </summary>
+        /// <param name="messageType"></param>
+        /// <returns></returns>
         private bool HasMessageType(MessageTypeEnum messageType)
         {
             return Messages.Any(item => item.MessageType == messageType);
