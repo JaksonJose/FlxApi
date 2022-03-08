@@ -7,5 +7,6 @@ namespace Flx.Domain.Responses.IResponses
         /// Does it have any messages
         /// </summary>
         bool HasAnyMessages { get; }
+        public bool HasErrorMessages { get; }
     }
 }

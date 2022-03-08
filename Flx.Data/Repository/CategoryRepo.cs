@@ -31,7 +31,7 @@ namespace Flx.Data.Repository
         /// <summary>
         /// Fetch All categories.
         /// </summary>
-        /// <returns>List<Course></returns>
+        /// <returns>InquiryResponse</returns>
         public async Task<InquiryResponse<Category>> FetchAllCategoriesAsync()
         {
             InquiryResponse<Category> response = new();
@@ -44,7 +44,7 @@ namespace Flx.Data.Repository
         /// Fetch Course By Id with all lesson that belongs to it.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>List<Course></returns>
+        /// <returns>InquiryResponse</returns>
         public async Task<InquiryResponse<Category>> FetchCategoryByIdAsync(long categoryId)
         {
             InquiryResponse<Category> response = new();
@@ -61,7 +61,7 @@ namespace Flx.Data.Repository
         /// <summary>
         /// Find all categories and match the entities
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List<Category></returns>
         private async Task<List<Category>> FindAll()
         {
             //Build the SQL
@@ -69,7 +69,7 @@ namespace Flx.Data.Repository
             string querySql = string.Join(' ', SelectAllCategories, SelectAllSubcategories, SelectAllImages);
             Template sqlTemplate = builder.AddTemplate(querySql);
 
-            var responseData = await _dbConnection.QueryMultipleAsync(sqlTemplate.RawSql);
+            GridReader responseData = await _dbConnection.QueryMultipleAsync(sqlTemplate.RawSql);
 
             List<Category> categories = responseData.Read<Category>().ToList();
             List<SubCategory> subCategories = responseData.Read<SubCategory>().ToList();

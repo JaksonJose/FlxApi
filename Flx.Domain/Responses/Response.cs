@@ -10,5 +10,10 @@ namespace Flx.Domain.Responses
         /// Reflect if the message list has any messages
         /// </summary>
         public bool HasAnyMessages { get { return Messages.Count > 0; } }
+
+        /// <summary>
+        /// Reflect if there are any error message
+        /// </summary>
+        public bool HasErrorMessages { get; }
     }
 }
