@@ -6,6 +6,8 @@ namespace Flx.Shared.Responses
 {
     public abstract class Response : IResponse
     {
+        #region Properties
+
         public List<Message> Messages { get; set; } = new();
 
         /// <summary>
@@ -18,14 +20,25 @@ namespace Flx.Shared.Responses
         /// </summary>
         public bool HasErrorMessages { get { return HasMessageType(MessageTypeEnum.Error); } }
 
-        public Response AddExceptionMessage()
+        #endregion
+
+        #region Public Method
+
+        public Response AddExceptionMessage(string text)
         {
-            Messages.Add(new Message(MessageTypeEnum.Exception));
+            Messages.Add(new Message(MessageTypeEnum.Exception, text));
             return this;
         }
+
+        #endregion
+
+        #region Private Method
+
         private bool HasMessageType(MessageTypeEnum messageType)
         {
             return Messages.Any(item => item.MessageType == messageType);
         }
+
+        #endregion
     }
 }

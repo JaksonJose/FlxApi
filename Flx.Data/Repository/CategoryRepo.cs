@@ -37,16 +37,15 @@ namespace Flx.Data.Repository
             CategoryInquiryResponse response = new();
             
             try
-            {
-             
+            {             
                 response.ResponseData = await this.FindAll();
-                return response;
             } 
             catch (Exception ex)
             {
-                response.AddExceptionMessage();
-                return response;
-            }     
+                response.AddExceptionMessage("Exception in FetchAllCategoriesAsy");             
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -58,11 +57,18 @@ namespace Flx.Data.Repository
         {
             CategoryInquiryResponse response = new();
 
-            List<Category> categories = await this.FindAll();
+            try
+            {
+                List<Category> categories = await this.FindAll();
+              
+                var selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
 
-            Category selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
-
-            response.ResponseData.Add(selectedCategory);
+                if(selectedCategory != null ) response.ResponseData.Add(selectedCategory);
+            }
+            catch (Exception ex)
+            {
+                response.AddExceptionMessage("Exception in FetchCategoryByIdAsync");
+            }           
 
             return response;
         }

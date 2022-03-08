@@ -9,6 +9,11 @@ namespace Flx.Shared.Responses
         {
             this.ResponseData = item;
         }
+
+        public InquiryResponse(T item) : base()
+        {
+            this.ResponseData.Add(item);
+        }
         public List<T> ResponseData { get; set; } = new List<T>();
     }
 }
