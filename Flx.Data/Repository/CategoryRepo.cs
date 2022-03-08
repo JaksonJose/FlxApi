@@ -44,7 +44,7 @@ namespace Flx.Data.Repository
             } 
             catch (Exception ex)
             {
-                //response.HasErrorMessages = "Error Metodo FetchAllCategoriesAsync";
+                response.AddExceptionMessage();
                 return response;
             }     
         }

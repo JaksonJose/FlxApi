@@ -8,12 +8,7 @@ namespace Flx.Domain.Validators
     {
         public CategoryInquiryResponse ValidateCategoryList(List<Category> categoryList)
         {
-            CategoryInquiryResponse categoryListResponse = new();
-
-            if (!categoryList.Any())
-            {
-                categoryListResponse.Messages.Add("Category is null");
-            }
+            CategoryInquiryResponse categoryListResponse = new();    
 
             // Must to validate Subcategories, Courses and etc... 
 
