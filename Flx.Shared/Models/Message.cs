@@ -10,7 +10,16 @@ namespace Flx.Shared.Models
             this.MessageType = messageType;
             this.Text = text;
         }
+
+        public Message(MessageTypeEnum messageType, string text, int status)
+        {
+            this.MessageType = messageType;
+            this.Text = text;
+            this.Status = status;
+        }
+
         public MessageTypeEnum MessageType { get; set; } = MessageTypeEnum.None;
+        public int Status { get; set; }
         public string Text { get; set; }
     }
 }

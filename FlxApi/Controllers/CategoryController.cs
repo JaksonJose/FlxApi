@@ -7,15 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlxApi.Controllers
 {
-    [Controller]
-    [Route("category")]
+    [ApiController]
+    [Route("api/[controller]")]
     public class CategoryController : Controller
     {
+        private readonly ILogger<CategoryController> _logger;
         private readonly ICategoryRepo _categoryRepo;
         private readonly ICategoryBac _categoryBac;
 
-        public CategoryController(ICategoryRepo categoryRepo, ICategoryBac categoryBac)
+        public CategoryController(ICategoryRepo categoryRepo, ICategoryBac categoryBac, ILogger<CategoryController> logger)
         {
+            _logger = logger;
             _categoryRepo = categoryRepo;
             _categoryBac = categoryBac;
         }
@@ -23,7 +25,18 @@ namespace FlxApi.Controllers
         [HttpGet]
         public async Task<List<Category>> GetAllCategories()
         {
-            CategoryInquiryResponse response = await _categoryRepo.FetchAllCategoriesAsync();
+            CategoryInquiryResponse response = new();
+
+            try
+            {
+                 response = await _categoryRepo.FetchAllCategoriesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while trying to loggin {ex.Message}");
+
+                response.AddExceptionMessage("Error while trying to fetch all Categories", StatusCodes.Status500InternalServerError);
+            }
 
             return response.ResponseData;
         }
@@ -31,7 +44,18 @@ namespace FlxApi.Controllers
         [HttpGet("{id}")]
         public async Task<Category> GetCategoryByIdAsync(long id)
         {
-            CategoryInquiryResponse response = await _categoryRepo.FetchCategoryByIdAsync(id);            
+            CategoryInquiryResponse response = new();
+
+            try
+            {
+                response = await _categoryRepo.FetchCategoryByIdAsync(id);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Error while trying to loggin {ex.Message}");
+
+                response.AddExceptionMessage("Error while trying to fetch Category by Id", StatusCodes.Status500InternalServerError);
+            }                     
 
             return response.ResponseData.FirstOrDefault();
         }
@@ -43,10 +67,23 @@ namespace FlxApi.Controllers
 
             CategoryInquiryResponse response = _categoryBac.InsertCategoryBac(request);
 
-            if (!response.HasErrorMessages)
+            if (response.HasErrorMessages)
+            {
+                return response;
+            }
+
+            try
             {
                 response = await _categoryRepo.InsertCategoryAsync(request, response);
-            }          
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while trying to loggin {ex.Message}");
+
+                response.AddExceptionMessage("Error while trying to insert a Category", StatusCodes.Status500InternalServerError);
+
+                return response;
+            }
 
             return response;   
         }

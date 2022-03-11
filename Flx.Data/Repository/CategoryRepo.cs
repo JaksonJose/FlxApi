@@ -39,15 +39,8 @@ namespace Flx.Data.Repository
         public async Task<CategoryInquiryResponse> FetchAllCategoriesAsync()
         {
             CategoryInquiryResponse response = new();
-            
-            try
-            {             
-                response.ResponseData = await this.FindAll();
-            } 
-            catch (Exception ex)
-            {
-                response.AddExceptionMessage("Exception in FetchAllCategoriesAsy");             
-            }
+                    
+            response.ResponseData = await this.FindAll();    
 
             return response;
         }
@@ -61,18 +54,11 @@ namespace Flx.Data.Repository
         {
             CategoryInquiryResponse response = new();
 
-            try
-            {
-                List<Category> categories = await this.FindAll();
+            List<Category> categories = await this.FindAll();
               
-                var selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
+            var selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
 
-                if(selectedCategory != null ) response.ResponseData.Add(selectedCategory);
-            }
-            catch (Exception ex)
-            {
-                response.AddExceptionMessage("Exception in FetchCategoryByIdAsync");
-            }           
+            if(selectedCategory != null ) response.ResponseData.Add(selectedCategory); 
 
             return response;
         }
@@ -89,14 +75,7 @@ namespace Flx.Data.Repository
             string querySql = string.Join(' ', InsertCategory, $"('{request.Model.Name}', '{request.Model.Description}', {request.Model.Duration});");
             Template sqlTemplate = builder.AddTemplate(querySql);
             
-            try
-            {
-                await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
-            }
-            catch (Exception ex)
-            {
-                response.AddExceptionMessage("Exception in FetchCategoryByIdAsync");
-            }
+            await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
 
             return response;
         }

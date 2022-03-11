@@ -39,9 +39,9 @@ namespace Flx.Shared.Responses
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public Response AddExceptionMessage(string text)
+        public Response AddExceptionMessage(string text, int status)
         {
-            Messages.Add(new Message(MessageTypeEnum.Exception, text));
+            Messages.Add(new Message(MessageTypeEnum.Exception, text, status));
 
             return this;
         }
