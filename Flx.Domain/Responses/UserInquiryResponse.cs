@@ -2,7 +2,7 @@
 
 namespace Flx.Domain.Responses
 {
-    public class UserInquiryResponse : BaseInquiryResponse<ApplicationUser>
+    public class UserInquiryResponse : BaseInquiryResponse<User>
     {
     }
 }

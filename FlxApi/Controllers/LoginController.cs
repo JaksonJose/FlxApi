@@ -1,45 +1,45 @@
-﻿using Flx.Domain.Models;
+﻿using Flx.Api.Services;
+using Flx.Data.Repository.IRepository;
+using Flx.Domain.Models;
 using Flx.Domain.Responses;
+using Flx.Shared.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Flx.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller")]
-    public class LoginController : Controller
+    [Route("api/[controller]")]
+    public class LoginController : BaseController
     {
         private readonly ILogger<LoginController> _logger;
+        private readonly IUserRepo _userRepo;
 
-        public LoginController(ILogger<LoginController> logger)
+        public LoginController(ILogger<LoginController> logger, IUserRepo userRepo)
         {
             _logger = logger;
+            _userRepo = userRepo;
         }
 
         [HttpPost]
-        public async Task<UserInquiryResponse> Login([FromBody] ApplicationUser loginRequest)
+        [AllowAnonymous]
+        public async Task<ActionResult<dynamic>> Login([FromBody] Login login)
         {
-            UserInquiryResponse response = new();
-            
-            // later refactorate the the validation logic
-            try
+            User user = new()
             {
-                if (loginRequest == null || string.IsNullOrEmpty(loginRequest.Login) || string.IsNullOrEmpty(loginRequest.Password))
-                {
-                    response.AddExceptionMessage("Invalid entry parameters", StatusCodes.Status400BadRequest);
+                Id = 1,
+                Name = "Batman",
+                Role = "Admin",
+                Token = "",
+            };
 
-                    return response;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error while trying to loggin {ex.Message}: {loginRequest}");
+            //var response = _userRepo.Get(user.Name, user.Password);
 
-                response.AddExceptionMessage("Error while trying to loggin", StatusCodes.Status500InternalServerError);
+            var token = TokenService.GenerateToken(user);
 
-                return response;
-            }
+            user.Token = token;
 
-            return response;
+            return user;
         }
     }
 }

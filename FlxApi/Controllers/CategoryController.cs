@@ -1,4 +1,5 @@
-﻿using Flx.Data.Repository.IRepository;
+﻿using Flx.Api.Controllers;
+using Flx.Data.Repository.IRepository;
 using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
 using Flx.Domain.Responses;
@@ -9,7 +10,7 @@ namespace FlxApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly ILogger<CategoryController> _logger;
         private readonly ICategoryRepo _categoryRepo;
