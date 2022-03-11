@@ -17,8 +17,13 @@ namespace Flx.Domain.Validators
 
             if (category.Name == null || category.Name == "")
             {
-                response.AddErrorMessage("Category must have a name");
-            }           
+                response.AddErrorMessage("Category Name is required");
+            }
+            
+            if (category.Description == null || category.Description == "")
+            {
+                response.AddWarningMessage("Category Description is empty");
+            }
 
             return response;
         }   

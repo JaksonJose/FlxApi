@@ -82,14 +82,23 @@ namespace Flx.Data.Repository
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public async Task InsertCategoryAsync(ModelOperationRequest<Category> request)
+        public async Task<CategoryInquiryResponse> InsertCategoryAsync(ModelOperationRequest<Category> request, CategoryInquiryResponse response)
         {
             //Build the SQL
             SqlBuilder builder = new();
             string querySql = string.Join(' ', InsertCategory, $"('{request.Model.Name}', '{request.Model.Description}', {request.Model.Duration});");
             Template sqlTemplate = builder.AddTemplate(querySql);
+            
+            try
+            {
+                await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
+            }
+            catch (Exception ex)
+            {
+                response.AddExceptionMessage("Exception in FetchCategoryByIdAsync");
+            }
 
-            await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
+            return response;
         }
 
         /// <summary>

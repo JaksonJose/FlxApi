@@ -37,17 +37,18 @@ namespace FlxApi.Controllers
         }
 
         [HttpPost]
-        public async Task InsertCategoryAsync([FromBody] Category category)
+        public async Task<CategoryInquiryResponse> InsertCategoryAsync([FromBody] Category category)
         {
             ModelOperationRequest<Category> request = new(category);
+
             CategoryInquiryResponse response = _categoryBac.InsertCategoryBac(request);
 
-            if (response.HasAnyMessages)
+            if (!response.HasErrorMessages)
             {
-                return;
-            }
+                response = await _categoryRepo.InsertCategoryAsync(request, response);
+            }          
 
-            await _categoryRepo.InsertCategoryAsync(request);
+            return response;   
         }
     }
 }

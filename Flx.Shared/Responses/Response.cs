@@ -42,6 +42,31 @@ namespace Flx.Shared.Responses
         public Response AddExceptionMessage(string text)
         {
             Messages.Add(new Message(MessageTypeEnum.Exception, text));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Add Info Message to Response Object
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public Response AddInfoMessage(string text)
+        {
+            Messages.Add(new Message(MessageTypeEnum.Info, text));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Add Warning Message to Response Object
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public Response AddWarningMessage(string text)
+        {
+            Messages.Add(new Message(MessageTypeEnum.Warning, text));
+
             return this;
         }
 

@@ -16,16 +16,7 @@ namespace Flx.Domain.BAC
 
         public CategoryInquiryResponse InsertCategoryBac(ModelOperationRequest<Category> request)
         {
-            CategoryInquiryResponse response;
-
-            response = this._categoryValidator.ValidateCategory(request.Model);
-
-            if (response.HasAnyMessages)
-            {
-                return response;
-            }
-
-            response.ResponseData.Add(request.Model);
+            CategoryInquiryResponse response = this._categoryValidator.ValidateCategory(request.Model);
 
             return response;
         }
