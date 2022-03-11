@@ -16,9 +16,9 @@ namespace Flx.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<BaseInquiryResponse<LoginRequest>> Login([FromBody] LoginRequest loginRequest)
+        public async Task<UserInquiryResponse> Login([FromBody] ApplicationUser loginRequest)
         {
-            BaseInquiryResponse<LoginRequest> response = new();
+            UserInquiryResponse response = new();
             
             // later refactorate the the validation logic
             try
