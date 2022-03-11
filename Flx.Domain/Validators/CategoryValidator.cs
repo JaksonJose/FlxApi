@@ -15,12 +15,12 @@ namespace Flx.Domain.Validators
                 response.AddErrorMessage("Category can't be null");
             }
 
-            if (category.Name == null || category.Name == "")
+            if (string.IsNullOrEmpty(category.Name))
             {
                 response.AddErrorMessage("Category Name is required");
             }
             
-            if (category.Description == null || category.Description == "")
+            if (string.IsNullOrEmpty(category.Description))
             {
                 response.AddWarningMessage("Category Description is empty");
             }
