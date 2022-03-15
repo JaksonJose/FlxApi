@@ -99,8 +99,8 @@ namespace Flx.Data.Repository
 
             categories.ForEach(c =>
             {
-                c.SubCategories = subCategories.Where(sb => sb.CategoryId == c.Id).ToList();
-                c.Images = images.Where(im => im.CategoryId == c.Id).ToList();
+                c.SubCategories = subCategories.Where(sb => sb.CategoryId == c.Id).ToList();      
+                c.Image = images.Where(im => im.Id == c.ImageId).ToList().FirstOrDefault();
             });
 
             return categories;

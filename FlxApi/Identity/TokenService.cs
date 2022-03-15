@@ -11,21 +11,19 @@ namespace Flx.Api.Services
     /// </summary>
     public class TokenService
     {
-        public static string GenerateToken(User user)
+        public static string GenerateToken(Login login)
         {
             JwtSecurityTokenHandler tokenHandler = new();
             
             // Get Criptographed key
             byte[] criptographedKey = Encoding.ASCII.GetBytes(KeyJWT.SecretKey);
 
-
             SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Name), // User.Identity.Name
-                    new Claim(ClaimTypes.Role, user.Role), // User.IsInRole()
+                    new Claim(ClaimTypes.Email, login.Email), // User.Identity.Name
+                    new Claim(ClaimTypes.Role, login.Role), // User.IsInRole()
                 }),
                 Expires = DateTime.UtcNow.AddHours(8), //token lifetime
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(criptographedKey), SecurityAlgorithms.HmacSha256Signature),

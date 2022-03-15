@@ -1,5 +1,4 @@
 ﻿using Flx.Api.Services;
-using Flx.Data.Repository.IRepository;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
@@ -13,17 +12,15 @@ namespace Flx.Api.Controllers
     public class LoginController : BaseController
     {
         private readonly ILogger<LoginController> _logger;
-        private readonly IUserRepo _userRepo;
 
-        public LoginController(ILogger<LoginController> logger, IUserRepo userRepo)
+        public LoginController(ILogger<LoginController> logger)
         {
             _logger = logger;
-            _userRepo = userRepo;
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<dynamic>> Login([FromBody] Login login)
+        public User UserLogin([FromBody] Login login)
         {
             User user = new()
             {
@@ -33,9 +30,7 @@ namespace Flx.Api.Controllers
                 Token = "",
             };
 
-            //var response = _userRepo.Get(user.Name, user.Password);
-
-            var token = TokenService.GenerateToken(user);
+            var token = TokenService.GenerateToken(login);
 
             user.Token = token;
 

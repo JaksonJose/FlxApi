@@ -4,12 +4,13 @@ using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlxApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/category")]
     public class CategoryController : BaseController
     {
         private readonly ILogger<CategoryController> _logger;
@@ -24,6 +25,7 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<List<Category>> GetAllCategories()
         {
             CategoryInquiryResponse response = new();
