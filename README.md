@@ -5,6 +5,7 @@ API for serve CourseFlx client
 - SQL Server
 - DDD Domain Driven-Disign
 - Microservices
+- Authentications
 
 ### Instructions
 As I do not create a migration for now, create a Database and set it to connection string and then run scripts located into script folder in the Data layer. 
