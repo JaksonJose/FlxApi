@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Flx.Domain.Models
+﻿
+namespace Flx.Domain.Identity.Models
 {
-    public class Login
+    public class Auth
     {
         public string Email { get; set; }
         public string Password { get; set; }

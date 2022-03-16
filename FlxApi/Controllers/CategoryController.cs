@@ -25,7 +25,6 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<List<Category>> GetAllCategories()
         {
             CategoryInquiryResponse response = new();

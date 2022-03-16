@@ -1,17 +1,18 @@
-﻿using Flx.Domain.Models;
+﻿using Flx.Domain.Identity;
+using Flx.Domain.Identity.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Flx.Api.Services
+namespace Flx.Domain.Identity
 {
     /// <summary>
     /// This class is for generate tokens
     /// </summary>
     public class TokenService
     {
-        public static string GenerateToken(Login login)
+        public static string GenerateToken(Auth auth)
         {
             JwtSecurityTokenHandler tokenHandler = new();
             
@@ -22,8 +23,8 @@ namespace Flx.Api.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Email, login.Email), // User.Identity.Name
-                    new Claim(ClaimTypes.Role, login.Role), // User.IsInRole()
+                    new Claim(ClaimTypes.Email, auth.Email), // User.Identity.Name
+                    new Claim(ClaimTypes.Role, auth.Role), // User.IsInRole()
                 }),
                 Expires = DateTime.UtcNow.AddHours(8), //token lifetime
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(criptographedKey), SecurityAlgorithms.HmacSha256Signature),

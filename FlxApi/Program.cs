@@ -5,6 +5,7 @@ using Flx.Domain.BAC;
 using Flx.Domain.BAC.IBAC;
 using Flx.Domain.IValidators;
 using Flx.Domain.Validators;
+using Flx.Domain.Validators.IValidators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
@@ -44,9 +45,11 @@ builder.Services.AddSingleton<ICategoryRepo, CategoryRepo>();
 
 // BAC Injection
 builder.Services.AddSingleton<ICategoryBac, CategoryBac>();
+builder.Services.AddSingleton<IIdentityBac, IdentityBac>();
 
 // Validator Injection
 builder.Services.AddSingleton<ICategoryValidator, CategoryValidator>();
+builder.Services.AddSingleton<IIdentityValidator, IdentityValidator>();
 
 // Add services to the container.
 builder.Services.AddControllers();
