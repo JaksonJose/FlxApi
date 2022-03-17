@@ -1,8 +1,10 @@
-﻿using Flx.Domain.BAC.IBAC;
+﻿using Flx.Data.Repository.IRepository;
+using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Identity;
 using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
+using Flx.Shared.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,41 +16,41 @@ namespace Flx.Api.Controllers
     {
         private readonly ILogger<AuthController> _logger;
         private readonly IIdentityBac _identity;
+        private readonly IUserRepo _userRepo;
 
-        public AuthController(ILogger<AuthController> logger, IIdentityBac identity)
+        public AuthController(ILogger<AuthController> logger, IIdentityBac identity, IUserRepo userRepo)
         {
             _logger = logger;
             _identity = identity;
+            _userRepo = userRepo;
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<UserInquiryResponse> AuthenticateAsync([FromBody] Auth auth)
         {
-            UserInquiryResponse response = new();
-
-            User user = new()
-            {
-                Id = 1,
-                Name = "Batman",
-                Role = "Admin",
-                Token = "",
-            };
-
-            try
-            {
-                response = _identity.AuthBac(auth);
-            }
-            catch (Exception ex)
+            UserInquiryResponse response = _identity.AuthBac(auth);
+            if (response.HasErrorMessages)
             {
                 return response;
             }
 
-            var token = TokenService.GenerateToken(auth);
+            User user = response.ResponseData.FirstOrDefault();
 
-            user.Token = token;
+            try
+            {
+                ModelOperationRequest<User> request = new(user);
 
-            return response;
+                response = await _userRepo.InsertUserAsync(request);        
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error while trying to execute AuthenticateAsync controller: {ex}");
+                response.AddExceptionMessage("Error while trying to register the user", StatusCodes.Status500InternalServerError);
+                return response;
+            }
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class KeyJWT
     {
-        public static string SecretKey = "MySuperSecretySecurityKeyDoNotShare";
+        public static string SecretKey = "MySuperSecretSecurityKeyDoNotShare";
     }
 }

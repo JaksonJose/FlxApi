@@ -23,8 +23,11 @@ CREATE TABLE dbo.Image (
 
 DROP TABLE IF exists dbo.FlxUser;
 CREATE TABLE dbo.FlxUser (
-	[UserId]		NVARCHAR(450) NOT NULL,
-	[Name]			NVARCHAR(450) NOT NULL,
-	[Email]			NVARCHAR(450) NOT NULL,
-	[PasswordHash]	NVARCHAR(MAX) NOT NULL,
+	[Id]				INT IDENTITY(1,1) NOT NULL,
+	[UserName]			NVARCHAR(256) NOT NULL,
+	[Email]				NVARCHAR(450) NOT NULL,
+	[EmailConfirmed]	INT NOT NULL,
+	[PasswordHash]		NVARCHAR(MAX) NOT NULL,
+	[FirstName]			NVARCHAR(256) NULL,
+	[LastName]			NVARCHAR(256) NULL,
 );

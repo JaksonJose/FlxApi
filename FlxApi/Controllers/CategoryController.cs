@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FlxApi.Controllers
 {
     [ApiController]
-    [Route("api/category")]
+    [Route("api/[controller]")]
     public class CategoryController : BaseController
     {
         private readonly ILogger<CategoryController> _logger;

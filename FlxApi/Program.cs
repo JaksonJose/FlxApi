@@ -1,8 +1,8 @@
-using Flx.Api;
 using Flx.Data.Repository;
 using Flx.Data.Repository.IRepository;
 using Flx.Domain.BAC;
 using Flx.Domain.BAC.IBAC;
+using Flx.Domain.Identity;
 using Flx.Domain.IValidators;
 using Flx.Domain.Validators;
 using Flx.Domain.Validators.IValidators;
@@ -40,12 +40,13 @@ builder.Services.AddCors(opt => opt.AddDefaultPolicy(builder => builder.WithOrig
 // Inject IDbConnection, with implemantation from SqlConnection class
 builder.Services.AddTransient<IDbConnection>(config => new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
 
-// Repository Injection
-builder.Services.AddSingleton<ICategoryRepo, CategoryRepo>();
-
 // BAC Injection
 builder.Services.AddSingleton<ICategoryBac, CategoryBac>();
 builder.Services.AddSingleton<IIdentityBac, IdentityBac>();
+
+// Repository Injection
+builder.Services.AddSingleton<ICategoryRepo, CategoryRepo>();
+builder.Services.AddSingleton<IUserRepo, UserRepo>();
 
 // Validator Injection
 builder.Services.AddSingleton<ICategoryValidator, CategoryValidator>();

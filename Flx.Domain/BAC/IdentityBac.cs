@@ -1,5 +1,7 @@
 ﻿using Flx.Domain.BAC.IBAC;
+using Flx.Domain.Identity;
 using Flx.Domain.Identity.Models;
+using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Domain.Validators.IValidators;
 
@@ -15,9 +17,28 @@ namespace Flx.Domain.BAC
 
         public UserInquiryResponse AuthBac(Auth auth)
         {
-            UserInquiryResponse response = new();
+            UserInquiryResponse response =  _identity.AuthValidation(auth);
 
-            response =  _identity.AuthValidation(auth);
+            if (response.HasErrorMessages)
+            {
+                return response;
+            }
+
+            string token = TokenService.GenerateToken(auth);
+
+            User user = new()
+            {
+                Id = 1,
+                UserName = "Batman",
+                Email = auth.Email,
+                EmailConfirmed = 0,
+                PasswordHash = auth.Password,
+                FirstName = "Jack",
+                LastName = "Chan",
+                Token = token,
+            };
+
+            response.ResponseData.Add(user);
 
             return response;
         }
