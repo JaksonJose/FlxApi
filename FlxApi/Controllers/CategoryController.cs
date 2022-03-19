@@ -25,6 +25,7 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<List<Category>> GetAllCategories()
         {
             CategoryInquiryResponse response = new();
@@ -44,7 +45,8 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Category> GetCategoryByIdAsync(long id)
+        [AllowAnonymous]
+        public async Task<CategoryInquiryResponse> GetCategoryByIdAsync(long id)
         {
             CategoryInquiryResponse response = new();
 
@@ -59,7 +61,7 @@ namespace FlxApi.Controllers
                 response.AddExceptionMessage("Error while trying to fetch Category by Id", StatusCodes.Status500InternalServerError);
             }                     
 
-            return response.ResponseData.FirstOrDefault();
+            return response;
         }
 
         [HttpPost]

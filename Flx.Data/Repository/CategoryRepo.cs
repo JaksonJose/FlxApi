@@ -103,6 +103,11 @@ namespace Flx.Data.Repository
                 c.Image = images.Where(im => im.Id == c.ImageId).ToList().FirstOrDefault();
             });
 
+            subCategories.ForEach(sb =>
+            {
+                sb.Image = images.Where(im => im.Id == sb.ImageId).ToList().FirstOrDefault();
+            });
+
             return categories;
         }  
     }
