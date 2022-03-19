@@ -35,13 +35,11 @@ namespace Flx.Api.Controllers
                 return response;
             }
 
-            User user = response.ResponseData.FirstOrDefault();
-
             try
             {
-                ModelOperationRequest<User> request = new(user);
+                ModelOperationRequest<Auth> request = new(auth);
 
-                response = await _userRepo.InsertUserAsync(request);        
+                response = await _userRepo.FetchUserByEmail(request, response);
 
                 return response;
             }

@@ -26,19 +26,15 @@ namespace Flx.Domain.BAC
 
             string token = TokenService.GenerateToken(auth);
 
-            User user = new()
-            {
-                Id = 1,
-                UserName = "Batman",
-                Email = auth.Email,
-                EmailConfirmed = 0,
-                PasswordHash = auth.Password,
-                FirstName = "Jack",
-                LastName = "Chan",
-                Token = token,
-            };
+            response.Token = token;
 
-            response.ResponseData.Add(user);
+            return response;
+        }
+
+        public UserInquiryResponse UserBac(UserInquiryResponse response)
+        {
+            //string token = TokenService.GenerateToken();
+
 
             return response;
         }

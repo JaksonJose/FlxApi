@@ -35,7 +35,7 @@ builder.Services.AddAuthentication(auth =>
 });
 
 // Add services to the container.
-builder.Services.AddCors(opt => opt.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:4200", "http://http://192.168.0.3:4200").AllowAnyOrigin().AllowAnyMethod()));
+builder.Services.AddCors(opt => opt.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:4200", "http://http://192.168.0.3:4200").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 // Inject IDbConnection, with implemantation from SqlConnection class
 builder.Services.AddTransient<IDbConnection>(config => new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
