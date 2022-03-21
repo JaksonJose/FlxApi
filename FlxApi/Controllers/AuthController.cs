@@ -1,8 +1,6 @@
 ﻿using Flx.Data.Repository.IRepository;
 using Flx.Domain.BAC.IBAC;
-using Flx.Domain.Identity;
 using Flx.Domain.Identity.Models;
-using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +12,7 @@ namespace Flx.Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : BaseController
     {
-        private readonly ILogger<AuthController> _logger;
+        private readonly ILogger _logger;
         private readonly IIdentityBac _identity;
         private readonly IUserRepo _userRepo;
 
@@ -34,21 +32,14 @@ namespace Flx.Api.Controllers
             {
                 return response;
             }
+      
+            ModelOperationRequest<Auth> request = new(auth);
 
-            try
-            {
-                ModelOperationRequest<Auth> request = new(auth);
+            response = await _userRepo.FetchUserByEmail(request, response);
 
-                response = await _userRepo.FetchUserByEmail(request, response);
+            _logger.LogInformation("User was successfully Authenticated.");
 
-                return response;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error while trying to execute AuthenticateAsync controller: {ex}");
-                response.AddExceptionMessage("Error while trying to register the user", StatusCodes.Status500InternalServerError);
-                return response;
-            }
+            return response;            
         }
     }
 }

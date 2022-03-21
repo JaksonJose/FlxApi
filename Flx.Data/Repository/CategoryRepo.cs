@@ -5,6 +5,7 @@ using Flx.Domain.Domains;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
+using Microsoft.AspNetCore.Http;
 using System.Data;
 using static Dapper.SqlBuilder;
 using static Dapper.SqlMapper;
@@ -54,13 +55,21 @@ namespace Flx.Data.Repository
         {
             CategoryInquiryResponse response = new();
 
-            List<Category> categories = await this.FindAll();
-              
-            var selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
+            try
+            {
+                List<Category> categories = await this.FindAll();
 
-            if(selectedCategory != null ) response.ResponseData.Add(selectedCategory); 
+                var selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
 
-            return response;
+                if (selectedCategory != null) response.ResponseData.Add(selectedCategory);
+
+                return response;
+            }
+            catch
+            {
+                response.AddExceptionMessage("Error while trying to fetching Category", StatusCodes.Status500InternalServerError);
+                return response;
+            }         
         }
 
         /// <summary>
@@ -70,14 +79,22 @@ namespace Flx.Data.Repository
         /// <returns></returns>
         public async Task<CategoryInquiryResponse> InsertCategoryAsync(ModelOperationRequest<Category> request, CategoryInquiryResponse response)
         {
-            //Build the SQL
-            SqlBuilder builder = new();
-            string querySql = string.Join(' ', InsertCategory, $"('{request.Model.Name}', '{request.Model.Description}', {request.Model.Duration});");
-            Template sqlTemplate = builder.AddTemplate(querySql);
-            
-            await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
+            try
+            {
+                //Build the SQL
+                SqlBuilder builder = new();
+                string querySql = string.Join(' ', InsertCategory, $"('{request.Model.Name}', '{request.Model.Description}', {request.Model.Duration});");
+                Template sqlTemplate = builder.AddTemplate(querySql);
 
-            return response;
+                await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
+
+                return response;
+            }
+            catch
+            {
+                response.AddExceptionMessage("Error while trying to Insert Category", StatusCodes.Status500InternalServerError);
+                return response;
+            }          
         }
 
         /// <summary>

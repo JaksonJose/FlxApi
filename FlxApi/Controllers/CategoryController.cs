@@ -28,18 +28,10 @@ namespace FlxApi.Controllers
         [AllowAnonymous]
         public async Task<List<Category>> GetAllCategories()
         {
-            CategoryInquiryResponse response = new();
+            CategoryInquiryResponse response = await _categoryRepo.FetchAllCategoriesAsync();
 
-            try
-            {
-                 response = await _categoryRepo.FetchAllCategoriesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error while trying to loggin {ex.Message}");
+            _logger.LogInformation("Categories was successfully fetched.");
 
-                response.AddExceptionMessage("Error while trying to fetch all Categories", StatusCodes.Status500InternalServerError);
-            }
 
             return response.ResponseData;
         }
@@ -48,18 +40,9 @@ namespace FlxApi.Controllers
         [AllowAnonymous]
         public async Task<CategoryInquiryResponse> GetCategoryByIdAsync(long id)
         {
-            CategoryInquiryResponse response = new();
+            CategoryInquiryResponse response = await _categoryRepo.FetchCategoryByIdAsync(id);
 
-            try
-            {
-                response = await _categoryRepo.FetchCategoryByIdAsync(id);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError($"Error while trying to loggin {ex.Message}");
-
-                response.AddExceptionMessage("Error while trying to fetch Category by Id", StatusCodes.Status500InternalServerError);
-            }                     
+            _logger.LogInformation("Category by Id was successfully");
 
             return response;
         }
@@ -76,18 +59,7 @@ namespace FlxApi.Controllers
                 return response;
             }
 
-            try
-            {
-                response = await _categoryRepo.InsertCategoryAsync(request, response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error while trying to loggin {ex.Message}");
-
-                response.AddExceptionMessage("Error while trying to insert a Category", StatusCodes.Status500InternalServerError);
-
-                return response;
-            }
+            response = await _categoryRepo.InsertCategoryAsync(request, response);     
 
             return response;   
         }
