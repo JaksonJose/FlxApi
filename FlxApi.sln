@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Api", "FlxApi\Flx.Api.c
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Domain", "Flx.Domain\Flx.Domain.csproj", "{9B798F12-6FA1-4B78-ABB2-197C6813F3B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Data", "Flx.Data\Flx.Data.csproj", "{75E7AD11-1FF5-4C2E-9A79-170119F4844B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Infrastructure", "Flx.Data\Flx.Infrastructure.csproj", "{75E7AD11-1FF5-4C2E-9A79-170119F4844B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Shared", "Flx.Shared\Flx.Shared.csproj", "{CACD4A58-3165-4374-9858-C0FA6E20FFAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flx.test", "Flx.test\Flx.test.csproj", "{196F30FC-B959-4E59-816C-62392504D115}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.test", "Flx.test\Flx.test.csproj", "{196F30FC-B959-4E59-816C-62392504D115}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

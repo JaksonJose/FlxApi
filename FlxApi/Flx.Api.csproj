@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Flx.Data\Flx.Data.csproj" />
+    <ProjectReference Include="..\Flx.Data\Flx.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
