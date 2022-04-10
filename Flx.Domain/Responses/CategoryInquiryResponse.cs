@@ -2,7 +2,7 @@
 
 namespace Flx.Domain.Responses
 {
-     public class CategoryInquiryResponse : BaseInquiryResponse<Category>
+    public class CategoryInquiryResponse : BaseInquiryResponse<Category>
     {
     }
 }

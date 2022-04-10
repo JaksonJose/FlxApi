@@ -13,8 +13,8 @@ namespace Flx.Data.Repository
 {
     public class UserRepo : IUserRepo
     {
-        private static readonly string SelectAllUsers = "SELECT Id, UseName, Email, FirstName, LastName FROM FlxUser;";
-        private static readonly string InsertUser = "INSERT INTO dbo.FlxUser(UserName, Email, EmailConfirmed, PasswordHash, FirstName, LastName) VALUES";
+        private static readonly string SelectAllUsers = "SELECT Id, UserName, Email, EmailConfirmed, PasswordHash, PasswordSalt, FirstName, LastName FROM FlxUser;";
+        private static readonly string InsertUser = "INSERT INTO dbo.FlxUser(UserName, Email, EmailConfirmed, PasswordHash, PasswordSalt, FirstName, LastName) VALUES";
 
         private readonly IDbConnection _dbConnection;
         public UserRepo(IDbConnection dbConnection)
@@ -36,7 +36,7 @@ namespace Flx.Data.Repository
             {
                 users = await this.FindAllUsers();
 
-                User selectedUser = response.ResponseData.Where(c => c.Email == request.Model.Email).FirstOrDefault();
+                User selectedUser = users.Find(u => u.Email == request.Model.Email);
 
                 if (selectedUser != null) response.ResponseData.Add(selectedUser);
 
@@ -62,7 +62,7 @@ namespace Flx.Data.Repository
             {
                 //Build the SQL
                 SqlBuilder builder = new();
-                string querySql = string.Join(' ', InsertUser, $"('{request.Model.UserName}', '{request.Model.Email}', {request.Model.EmailConfirmed}, '{request.Model.PasswordHash}', '{request.Model.FirstName}', '{request.Model.LastName}');");
+                string querySql = string.Join(' ', InsertUser, $"('{request.Model.UserName}', '{request.Model.Email}', {Convert.ToInt32(request.Model.EmailConfirmed)}, '{request.Model.PasswordHash}', '{request.Model.PasswordSalt}', '{request.Model.FirstName}', '{request.Model.LastName}')");
                 Template sqlTemplate = builder.AddTemplate(querySql);
 
                 await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
@@ -78,16 +78,14 @@ namespace Flx.Data.Repository
 
         private async Task<List<User>> FindAllUsers()
         {
-            List<User> users = new();
-
             //Build the SQL
             SqlBuilder builder = new();
-            string querySql = string.Join(' ', "SELECT Id, Email, FirstName, LastName FROM FlxUser");
+            string querySql = string.Join(' ', SelectAllUsers);
             Template sqlTemplate = builder.AddTemplate(querySql);
 
             IEnumerable<User> responseData = await _dbConnection.QueryAsync<User>(sqlTemplate.RawSql);
-            
-            users = responseData.ToList();
+
+            List<User> users = responseData.ToList();
 
             return users;         
         }

@@ -26,8 +26,9 @@ CREATE TABLE dbo.FlxUser (
 	[Id]				INT IDENTITY(1,1) NOT NULL,
 	[UserName]			NVARCHAR(256) NOT NULL,
 	[Email]				NVARCHAR(450) NOT NULL,
-	[EmailConfirmed]	INT NOT NULL,
-	[PasswordHash]		NVARCHAR(MAX) NOT NULL,
+	[EmailConfirmed]	BIT NOT NULL,
+	[PasswordHash]		VARCHAR(MAX) NOT NULL,
+	[PasswordSalt]		VARCHAR(MAX) NOT NULL,
 	[FirstName]			NVARCHAR(256) NULL,
 	[LastName]			NVARCHAR(256) NULL,
 );

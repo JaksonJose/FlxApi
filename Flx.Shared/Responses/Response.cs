@@ -9,8 +9,7 @@ namespace Flx.Shared.Responses
         #region Properties
 
         public List<Message> Messages { get; set; } = new();
-        public string Token { get; set; }
-
+        public string Token { get; set; } = "";
 
         /// <summary>
         /// Reflect if the message list has any messages

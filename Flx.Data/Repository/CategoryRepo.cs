@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Flx.Data.Repository.IRepository;
-using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
@@ -25,7 +24,6 @@ namespace Flx.Data.Repository
 
         #region Properties
         private readonly IDbConnection _dbConnection;
-        private readonly ICategoryBac _categoryBac;
         #endregion
 
         public CategoryRepo(IDbConnection dbconnection)

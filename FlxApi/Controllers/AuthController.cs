@@ -1,10 +1,14 @@
 ﻿using Flx.Data.Repository.IRepository;
 using Flx.Domain.BAC.IBAC;
+using Flx.Domain.Identity;
 using Flx.Domain.Identity.Models;
+using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Flx.Api.Controllers
 {
@@ -23,23 +27,39 @@ namespace Flx.Api.Controllers
             _userRepo = userRepo;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<UserInquiryResponse> AuthenticateAsync([FromBody] Auth auth)
+        public async Task<ActionResult<UserInquiryResponse>> AuthenticateAsync([FromBody] Auth auth)
         {
-            UserInquiryResponse response = _identity.AuthBac(auth);
-            if (response.HasErrorMessages)
-            {
-                return response;
-            }
-      
+            UserInquiryResponse response = _identity.AuthLoginBac(auth);
+            if (response.HasErrorMessages) return BadRequest(response);
+     
             ModelOperationRequest<Auth> request = new(auth);
 
             response = await _userRepo.FetchUserByEmail(request, response);
+            if (response.HasErrorMessages) return BadRequest(response);
+            
+            response = _identity.AuthUserBac(auth, response);
+            if (response.HasErrorMessages) return BadRequest(response);         
 
             _logger.LogInformation("User was successfully Authenticated.");
 
-            return response;            
+            return Ok(response);            
         }
+
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UserInquiryResponse>> RegisterCredential(Auth auth)
+        {
+            UserInquiryResponse response = _identity.RegisterCredentialBac(auth);
+            if (response.HasErrorMessages) return BadRequest(response);
+
+            ModelOperationRequest<User> request = new(response.ResponseData.FirstOrDefault());
+
+            response = await _userRepo.InsertUserAsync(request);
+            if (response.HasErrorMessages) return BadRequest(response);
+
+            return Ok(response);
+        }      
     }
 }
