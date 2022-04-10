@@ -25,7 +25,6 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<List<Category>> GetAllCategories()
         {
             CategoryInquiryResponse response = await _categoryRepo.FetchAllCategoriesAsync();
@@ -38,7 +37,6 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public async Task<CategoryInquiryResponse> GetCategoryByIdAsync(long id)
         {
             CategoryInquiryResponse response = await _categoryRepo.FetchCategoryByIdAsync(id);

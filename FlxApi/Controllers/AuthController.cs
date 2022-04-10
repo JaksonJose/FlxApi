@@ -1,14 +1,11 @@
 ﻿using Flx.Data.Repository.IRepository;
 using Flx.Domain.BAC.IBAC;
-using Flx.Domain.Identity;
 using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Flx.Api.Controllers
 {
