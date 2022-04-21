@@ -18,7 +18,7 @@ namespace Flx.Data.Repository
         private static readonly string SelectAllCategories = "SELECT * FROM Category;";
         private static readonly string SelectAllSubcategories = "SELECT * FROM Subcategory;";
         private static readonly string SelectAllImages = "SELECT * FROM Image;";
-        private static readonly string InsertCategory = "INSERT INTO Category (Name, Description, Duration) VALUES";
+        private static readonly string InsertCategory = "INSERT INTO Category (Name, Description) VALUES";
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace Flx.Data.Repository
             {
                 //Build the SQL
                 SqlBuilder builder = new();
-                string querySql = string.Join(' ', InsertCategory, $"('{request.Model.Name}', '{request.Model.Description}', {request.Model.Duration});");
+                string querySql = string.Join(' ', InsertCategory, $"('{request.Model.Name}', '{request.Model.Description}';");
                 Template sqlTemplate = builder.AddTemplate(querySql);
 
                 await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);

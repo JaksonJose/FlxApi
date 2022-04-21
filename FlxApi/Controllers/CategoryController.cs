@@ -4,7 +4,6 @@ using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlxApi.Controllers

@@ -26,37 +26,37 @@ namespace Flx.Api.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserInquiryResponse>> AuthenticateAsync([FromBody] Auth auth)
+        public async Task<UserInquiryResponse> AuthenticateAsync([FromBody] Auth auth)
         {
             UserInquiryResponse response = _identity.AuthLoginBac(auth);
-            if (response.HasErrorMessages) return BadRequest(response);
+            if (response.HasErrorMessages) return response;
      
             ModelOperationRequest<Auth> request = new(auth);
 
             response = await _userRepo.FetchUserByEmail(request, response);
-            if (response.HasErrorMessages) return BadRequest(response);
+            if (response.HasErrorMessages) return response;
             
             response = _identity.AuthUserBac(auth, response);
-            if (response.HasErrorMessages) return BadRequest(response);         
+            if (response.HasErrorMessages) return response;         
 
             _logger.LogInformation("User was successfully Authenticated.");
 
-            return Ok(response);            
+            return response;            
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserInquiryResponse>> RegisterCredential(Auth auth)
+        public async Task<UserInquiryResponse> RegisterCredential(Auth auth)
         {
             UserInquiryResponse response = _identity.RegisterCredentialBac(auth);
-            if (response.HasErrorMessages) return BadRequest(response);
+            if (response.HasErrorMessages) return response;
 
             ModelOperationRequest<User> request = new(response.ResponseData.FirstOrDefault());
 
             response = await _userRepo.InsertUserAsync(request);
-            if (response.HasErrorMessages) return BadRequest(response);
+            if (response.HasErrorMessages) return response;
 
-            return Ok(response);
+            return response;
         }      
     }
 }

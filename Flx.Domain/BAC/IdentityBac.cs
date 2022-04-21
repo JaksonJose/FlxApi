@@ -61,14 +61,14 @@ namespace Flx.Domain.BAC
             UserInquiryResponse response = _identity.AuthCredentialsValidation(auth);
             if (response.HasErrorMessages) return response;
 
-            User user = this.UserBuilder(auth);   
+            User user = UserBuilder(auth);   
 
             response.ResponseData.Add(user);
 
             return response;
         }
   
-        private User UserBuilder(Auth auth)
+        private static User UserBuilder(Auth auth)
         {
             User user = PasswordHash.CreatePasswordHash(auth.Password);
 
