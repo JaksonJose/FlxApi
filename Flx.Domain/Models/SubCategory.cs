@@ -7,8 +7,8 @@ namespace Flx.Domain.Domains
         public long Id { get; set; }
         public long CategoryId { get; set; }
         public long ImageId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Image Image { get; set; }
+        public string Name { get; set; } = String.Empty;
+        public string Description { get; set; } = String.Empty;
+        public Image? Image { get; set; }
     }
 }
