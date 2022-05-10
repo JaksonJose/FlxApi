@@ -2,7 +2,7 @@
 
 namespace Flx.Domain.Domains
 {
-    public class SubCategory
+    public class SubCategory : BaseSAModel
     {
         public long Id { get; set; }
         public long CategoryId { get; set; }

@@ -13,6 +13,7 @@ namespace Flx.Domain.Validators
             if (category == null)
             {
                 response.AddErrorMessage("Category can't be null");
+                return response;
             }
 
             if (string.IsNullOrEmpty(category.Name))

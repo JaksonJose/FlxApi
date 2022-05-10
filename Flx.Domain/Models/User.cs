@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Flx.Domain.Models
 {
-    public class User
+    public class User : BaseSAModel
     {
         public int Id { get; set; }
         public string UserName { get; set; } = String.Empty;
