@@ -15,29 +15,27 @@ namespace Flx.Domain.Validators
         /// </summary>
         /// <param name="auth"></param>
         /// <returns></returns>
-        public UserInquiryResponse AuthCredentialsValidation(Auth auth)
+        public bool AuthCredentialsValidation(Auth auth)
         {
-            UserInquiryResponse response = new();
-
             // TODO: Improve this later            
             Regex emailForm = new Regex(@"^([\w\.\-\+\d]+)@([\w\-]+)((\.(\w){2,3})+)$");
             if(string.IsNullOrEmpty(auth.Email) || string.IsNullOrWhiteSpace(auth.Email) || !emailForm.Match(auth.Email).Success)
             {
-                response.AddErrorMessage("Invalid Email");
+                return false;
             }            
             
             // TODO: Improve this later            
             if(string.IsNullOrEmpty(auth.Password) || string.IsNullOrWhiteSpace(auth.Password) || auth.Password.Length < 4 && 
                 Regex.IsMatch(auth.Password, "[a-ZA-Z0-9]+", RegexOptions.IgnoreCase))
             {
-               response.AddErrorMessage("Invalid Password");
+                return false;
             }            
 
-            return response;
+            return true;
         }
         
         /// <summary>
-        /// Varify if the 
+        /// Varify if the password is matched
         /// </summary>
         /// <param name="auth"></param>
         /// <param name="user"></param>

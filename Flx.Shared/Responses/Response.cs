@@ -71,6 +71,11 @@ namespace Flx.Shared.Responses
             return this;
         }
 
+        public virtual void Merge(IResponse response)
+        {
+            this.Messages.AddRange(response.Messages);
+        }
+
         #endregion
 
         #region Private Method

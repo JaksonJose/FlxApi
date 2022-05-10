@@ -4,6 +4,7 @@ using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
+using Flx.Shared.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,27 +27,24 @@ namespace Flx.Api.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<UserInquiryResponse> AuthenticateAsync([FromBody] Auth auth)
-        {
-            UserInquiryResponse response = _identity.AuthLoginBac(auth);
-            if (response.HasErrorMessages) return response;
-     
-            ModelOperationRequest<Auth> request = new(auth);
+        public async Task<UserInquiryResponse> SignInAsync([FromBody] Auth auth)
+        {     
+            ModelOperationRequest<Auth> request = new(auth);     
 
-            response = await _userRepo.FetchUserByEmail(request, response);
-            if (response.HasErrorMessages) return response;
-            
-            response = _identity.AuthUserBac(auth, response);
-            if (response.HasErrorMessages) return response;         
+            UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(request);
+            if (userResponse.HasErrorMessages) return userResponse;
+
+            userResponse = _identity.AuthUserBac(auth, userResponse);
+            if (userResponse.HasErrorMessages) return userResponse;         
 
             _logger.LogInformation("User was successfully Authenticated.");
 
-            return response;            
+            return userResponse;            
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<UserInquiryResponse> RegisterCredential(Auth auth)
+        public async Task<UserInquiryResponse> RegisterCredential([FromBody] Auth auth)
         {
             UserInquiryResponse response = _identity.RegisterCredentialBac(auth);
             if (response.HasErrorMessages) return response;

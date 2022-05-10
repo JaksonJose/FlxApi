@@ -30,8 +30,6 @@ namespace FlxApi.Controllers
 
             _logger.LogInformation("Categories was successfully fetched.");
 
-            var teste = response;
-
             return response.ResponseData;
         }
 

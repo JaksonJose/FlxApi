@@ -1,4 +1,6 @@
 ﻿
+using Flx.Shared.Models;
+
 namespace Flx.Shared.Responses.IResponses
 {
     public interface IResponse
@@ -6,7 +8,9 @@ namespace Flx.Shared.Responses.IResponses
         /// <summary>
         /// Does it have any messages
         /// </summary>
-        bool HasAnyMessages { get; }
+        public bool HasAnyMessages { get; }
         public bool HasErrorMessages { get; }
+
+        public List<Message> Messages { get; set; }
     }
 }

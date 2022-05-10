@@ -4,7 +4,6 @@ using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Domain.Validators.IValidators;
-using System.Text;
 
 namespace Flx.Domain.BAC
 {
@@ -17,36 +16,27 @@ namespace Flx.Domain.BAC
         }
 
         /// <summary>
-        /// Sign In
-        /// </summary>
-        /// <param name="auth"></param>
-        /// <returns></returns>
-        public UserInquiryResponse AuthLoginBac(Auth auth)
-        {
-            UserInquiryResponse response =  _identity.AuthCredentialsValidation(auth);
-            
-            if (response.HasErrorMessages)
-            {
-                return response;
-            }
-
-            string token = TokenService.GenerateToken(auth);
-
-            response.Token = token;
-
-            return response;
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="auth"></param>
         /// <param name="userResponse"></param>
         /// <returns></returns>
         public UserInquiryResponse AuthUserBac(Auth auth, UserInquiryResponse userResponse)
-        {     
+        {
+            bool isValidated = _identity.AuthCredentialsValidation(auth);
+            if (!isValidated)
+            {
+                return userResponse;
+            }
 
             userResponse = _identity.UserAuthenticationValidation(auth, userResponse);
+            if (userResponse.HasErrorMessages)
+            {
+                return userResponse;
+            }
+
+            string token = TokenService.GenerateToken(auth);
+            userResponse.Token = token;
 
             return userResponse;
         }
@@ -58,16 +48,26 @@ namespace Flx.Domain.BAC
         /// <returns></returns>
         public UserInquiryResponse RegisterCredentialBac(Auth auth)
         {
-            UserInquiryResponse response = _identity.AuthCredentialsValidation(auth);
-            if (response.HasErrorMessages) return response;
+            UserInquiryResponse userResponse = new();
 
-            User user = UserBuilder(auth);   
+            bool isValidated = _identity.AuthCredentialsValidation(auth);
+            if (!isValidated)
+            {
+                return userResponse;
+            }
 
-            response.ResponseData.Add(user);
+            User user = UserBuilder(auth);
 
-            return response;
+            userResponse.ResponseData.Add(user);
+
+            return userResponse;
         }
   
+        /// <summary>
+        /// Build the user object
+        /// </summary>
+        /// <param name="auth"></param>
+        /// <returns></returns>
         private static User UserBuilder(Auth auth)
         {
             User user = PasswordHash.CreatePasswordHash(auth.Password);

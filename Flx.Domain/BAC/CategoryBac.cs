@@ -11,12 +11,12 @@ namespace Flx.Domain.BAC
         private readonly ICategoryValidator _categoryValidator;
         public CategoryBac(ICategoryValidator categoryValidator)
         {
-            this._categoryValidator = categoryValidator;
+            _categoryValidator = categoryValidator;
         }
 
         public CategoryInquiryResponse InsertCategoryBac(ModelOperationRequest<Category> request)
         {
-            CategoryInquiryResponse response = this._categoryValidator.ValidateCategory(request.Model);
+            CategoryInquiryResponse response = _categoryValidator.ValidateCategory(request.Model);
 
             return response;
         }

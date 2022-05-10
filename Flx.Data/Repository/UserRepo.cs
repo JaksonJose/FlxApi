@@ -26,19 +26,19 @@ namespace Flx.Data.Repository
         /// Fetch user comparing by email
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="response"></param>
         /// <returns></returns>
-        public async Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<Auth> request, UserInquiryResponse response)
+        public async Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<Auth> request)
         {
-            List<User> users = new();
+            UserInquiryResponse response = new();
+            List<User> users = new();            
 
             try
             {
                 users = await this.FindAllUsers();
 
-                User selectedUser = users.Find(u => u.Email == request.Model.Email);
+                List<User> selectedUser = users.FindAll(u => u.Email == request.Model.Email);
 
-                if (selectedUser != null) response.ResponseData.Add(selectedUser);
+                response.ResponseData.AddRange(selectedUser);
 
                 return response;
             }

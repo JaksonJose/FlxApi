@@ -1,5 +1,4 @@
-﻿
-using Flx.Domain.Models;
+﻿using Flx.Domain.Models;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -29,6 +28,14 @@ namespace Flx.Domain.Identity
             }
         }
 
+        /// <summary>
+        /// Verify if password match
+        /// passwordSalt is a kind of key to make the hash verification
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="passwordHash"></param>
+        /// <param name="passwordSalt"></param>
+        /// <returns></returns>
         public static bool PasswordHashIsMatch(string password, string passwordHash, string passwordSalt)
         {
             //Convert to byte[]
