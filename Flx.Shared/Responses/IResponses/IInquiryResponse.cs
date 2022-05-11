@@ -1,5 +1,4 @@
-﻿
-namespace Flx.Shared.Responses.IResponses
+﻿namespace Flx.Shared.Responses.IResponses
 {
     public interface IInquiryResponse<T>
     {

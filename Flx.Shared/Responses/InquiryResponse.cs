@@ -2,7 +2,7 @@
 
 namespace Flx.Shared.Responses
 {
-     public class InquiryResponse<T> : Response, IInquiryResponse<T>
+     public class InquiryResponse<T> : BaseResponse, IInquiryResponse<T>
     {
         /// <summary>
         /// Empty constructor

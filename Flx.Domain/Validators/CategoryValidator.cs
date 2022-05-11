@@ -1,6 +1,7 @@
 ﻿using Flx.Domain.Domains;
 using Flx.Domain.IValidators;
 using Flx.Domain.Responses;
+using Microsoft.AspNetCore.Http;
 
 namespace Flx.Domain.Validators
 {

@@ -27,38 +27,38 @@ namespace Flx.Api.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<UserInquiryResponse> SignInAsync([FromBody] SignIn auth)
+        public async Task<ActionResult> SignInAsync([FromBody] SignIn auth)
         {     
             ModelOperationRequest<SignIn> request = new(auth);     
 
             UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(request);
-            if (userResponse.HasErrorMessages) return userResponse;
+            if (userResponse.HasErrorMessages) return BadRequest(userResponse);
 
             userResponse = _identity.AuthUserBac(auth, userResponse);
-            if (userResponse.HasErrorMessages) return userResponse;         
+            if (userResponse.HasErrorMessages) return BadRequest(userResponse);         
 
             _logger.LogInformation("User was successfully Authenticated.");
 
-            return userResponse;            
+            return Ok(userResponse);            
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<UserInquiryResponse> RegisterCredential([FromBody] Register userRegister)
+        public async Task<ActionResult> RegisterCredential([FromBody] Register userRegister)
         {
             List<User> userList = await _userRepo.FetchAllUsers();         
 
-            UserInquiryResponse response = _identity.RegisterCredentialBac(userRegister, userList);
-            if (response.HasErrorMessages || !response.ResponseData.Any()) return response;
+            var response = _identity.RegisterCredentialBac(userRegister, userList);
+            if (response.HasErrorMessages) return BadRequest(response);
 
             ModelOperationRequest<User> request = new(response.ResponseData.FirstOrDefault());
 
             response = await _userRepo.InsertUserAsync(request);
-            if (response.HasErrorMessages) return response;
+            if (response.HasErrorMessages) return BadRequest(response);
 
-            response.AddInfoMessage("User successfully registered");           
+            response.AddInfoMessage("User successfully registered", StatusCodes.Status200OK);           
 
-            return response;
+            return Ok(response);
         }      
     }
 }
