@@ -27,7 +27,7 @@ namespace Flx.Data.Repository
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<Auth> request)
+        public async Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<SignIn> request)
         {
             UserInquiryResponse response = new();
             List<User> users = new();            

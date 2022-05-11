@@ -21,14 +21,8 @@ namespace Flx.Domain.BAC
         /// <param name="auth"></param>
         /// <param name="userResponse"></param>
         /// <returns></returns>
-        public UserInquiryResponse AuthUserBac(Auth auth, UserInquiryResponse userResponse)
-        {
-            bool isValidated = _identity.AuthCredentialsValidation(auth);
-            if (!isValidated)
-            {
-                return userResponse;
-            }
-
+        public UserInquiryResponse AuthUserBac(SignIn auth, UserInquiryResponse userResponse)
+        {       
             userResponse = _identity.UserAuthenticationValidation(auth, userResponse);
             if (userResponse.HasErrorMessages)
             {
@@ -46,15 +40,9 @@ namespace Flx.Domain.BAC
         /// </summary>
         /// <param name="auth"></param>
         /// <returns></returns>
-        public UserInquiryResponse RegisterCredentialBac(Auth auth)
+        public UserInquiryResponse RegisterCredentialBac(SignIn auth)
         {
             UserInquiryResponse userResponse = new();
-
-            bool isValidated = _identity.AuthCredentialsValidation(auth);
-            if (!isValidated)
-            {
-                return userResponse;
-            }
 
             User user = UserBuilder(auth);
 
@@ -68,7 +56,7 @@ namespace Flx.Domain.BAC
         /// </summary>
         /// <param name="auth"></param>
         /// <returns></returns>
-        private static User UserBuilder(Auth auth)
+        private static User UserBuilder(SignIn auth)
         {
             User user = PasswordHash.CreatePasswordHash(auth.Password);
 

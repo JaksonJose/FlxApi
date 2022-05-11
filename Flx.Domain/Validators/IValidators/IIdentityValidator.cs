@@ -6,8 +6,6 @@ namespace Flx.Domain.Validators.IValidators
 {
     public interface IIdentityValidator
     {
-        public bool AuthCredentialsValidation(Auth auth);
-
-        public UserInquiryResponse UserAuthenticationValidation(Auth auth, UserInquiryResponse user);
+        public UserInquiryResponse UserAuthenticationValidation(SignIn auth, UserInquiryResponse user);
     }
 }

@@ -27,9 +27,9 @@ namespace Flx.Api.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<UserInquiryResponse> SignInAsync([FromBody] Auth auth)
+        public async Task<UserInquiryResponse> SignInAsync([FromBody] SignIn auth)
         {     
-            ModelOperationRequest<Auth> request = new(auth);     
+            ModelOperationRequest<SignIn> request = new(auth);     
 
             UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(request);
             if (userResponse.HasErrorMessages) return userResponse;
@@ -44,7 +44,7 @@ namespace Flx.Api.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<UserInquiryResponse> RegisterCredential([FromBody] Auth auth)
+        public async Task<UserInquiryResponse> RegisterCredential([FromBody] SignIn auth)
         {
             UserInquiryResponse response = _identity.RegisterCredentialBac(auth);
             if (response.HasErrorMessages) return response;

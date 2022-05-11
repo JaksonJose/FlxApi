@@ -6,7 +6,7 @@ namespace Flx.Domain.BAC.IBAC
 {
     public interface IIdentityBac
     {
-        public UserInquiryResponse AuthUserBac(Auth auth, UserInquiryResponse userResponse);
-        public UserInquiryResponse RegisterCredentialBac(Auth auth);
+        public UserInquiryResponse AuthUserBac(SignIn auth, UserInquiryResponse userResponse);
+        public UserInquiryResponse RegisterCredentialBac(SignIn auth);
     }
 }

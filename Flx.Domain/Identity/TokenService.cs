@@ -12,7 +12,7 @@ namespace Flx.Domain.Identity
     /// </summary>
     public class TokenService
     {
-        public static string GenerateToken(Auth auth)
+        public static string GenerateToken(SignIn auth)
         {
             JwtSecurityTokenHandler tokenHandler = new();
             
