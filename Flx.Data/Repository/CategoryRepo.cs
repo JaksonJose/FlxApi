@@ -4,6 +4,7 @@ using Flx.Domain.Domains;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
+using Flx.Shared.Responses;
 using Microsoft.AspNetCore.Http;
 using System.Data;
 using static Dapper.SqlBuilder;
@@ -75,7 +76,7 @@ namespace Flx.Data.Repository
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public async Task<CategoryInquiryResponse> InsertCategoryAsync(ModelOperationRequest<Category> request, CategoryInquiryResponse response)
+        public async Task<ModelOperationResponse> InsertCategoryAsync(ModelOperationRequest<Category> request, ModelOperationResponse response)
         {
             try
             {
@@ -85,6 +86,8 @@ namespace Flx.Data.Repository
                 Template sqlTemplate = builder.AddTemplate(querySql);
 
                 await _dbConnection.ExecuteAsync(sqlTemplate.RawSql);
+
+                response.AddInfoMessage("Category was successfully added");
 
                 return response;
             }

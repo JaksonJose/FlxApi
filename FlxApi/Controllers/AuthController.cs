@@ -32,10 +32,10 @@ namespace Flx.Api.Controllers
             ModelOperationRequest<SignIn> request = new(auth);     
 
             UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(request);
-            if (userResponse.HasErrorMessages) return BadRequest(userResponse);
-
+            if (userResponse.HasExceptionMessages) return BadRequest(userResponse);                 
+               
             userResponse = _identity.AuthUserBac(auth, userResponse);
-            if (userResponse.HasErrorMessages) return BadRequest(userResponse);         
+            if (userResponse.HasErrorMessages) return BadRequest(userResponse);     
 
             _logger.LogInformation("User was successfully Authenticated.");
 
@@ -51,12 +51,12 @@ namespace Flx.Api.Controllers
             var response = _identity.RegisterCredentialBac(userRegister, userList);
             if (response.HasErrorMessages) return BadRequest(response);
 
-            ModelOperationRequest<User> request = new(response.ResponseData.FirstOrDefault());
+            ModelOperationRequest<User> request = new(response.ResponseData.First());
 
             response = await _userRepo.InsertUserAsync(request);
-            if (response.HasErrorMessages) return BadRequest(response);
+            if (response.HasExceptionMessages) return BadRequest(response);           
 
-            response.AddInfoMessage("User successfully registered", StatusCodes.Status200OK);           
+            response.AddInfoMessage("User successfully registered", StatusCodes.Status201Created);           
 
             return Ok(response);
         }      

@@ -22,6 +22,11 @@ namespace Flx.Shared.Responses
         public bool HasErrorMessages { get { return HasMessageType(MessageTypeEnum.Error); } }
 
         /// <summary>
+        /// Reflext if there are any Exception Messages
+        /// </summary>
+        public bool HasExceptionMessages { get { return HasMessageType(MessageTypeEnum.Exception); } }
+
+        /// <summary>
         /// Reflect if there are any Infomation messages
         /// </summary>
         public bool HasInformationMessages { get { return HasMessageType(MessageTypeEnum.Info); } }

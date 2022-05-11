@@ -24,16 +24,16 @@ namespace Flx.Domain.BAC
         /// <param name="userResponse"></param>
         /// <returns></returns>
         public UserInquiryResponse AuthUserBac(SignIn auth, UserInquiryResponse userResponse)
-        {       
+        {
             userResponse = _identity.UserAuthenticationValidation(auth, userResponse);
             if (userResponse.HasErrorMessages)
             {
+                userResponse.ResponseData = new();
                 return userResponse;
-            }
+            }           
 
             string token = TokenService.GenerateToken(auth);
             userResponse.Token = token;
-
 
             return userResponse;
         }

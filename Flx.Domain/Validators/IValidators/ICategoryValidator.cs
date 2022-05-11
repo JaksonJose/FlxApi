@@ -1,10 +1,10 @@
 ﻿using Flx.Domain.Domains;
-using Flx.Domain.Responses;
+using Flx.Shared.Responses;
 
 namespace Flx.Domain.IValidators
 {
     public interface ICategoryValidator
     {
-        public CategoryInquiryResponse ValidateCategory(Category category);
+        public ModelOperationResponse  ValidateCategory(Category category);
     }
 }

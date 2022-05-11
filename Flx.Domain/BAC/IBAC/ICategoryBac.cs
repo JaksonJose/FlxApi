@@ -1,11 +1,11 @@
 ﻿using Flx.Domain.Domains;
-using Flx.Domain.Responses;
 using Flx.Shared.Requests;
+using Flx.Shared.Responses;
 
 namespace Flx.Domain.BAC.IBAC
 {
     public interface ICategoryBac
     {
-        public CategoryInquiryResponse InsertCategoryBac(ModelOperationRequest<Category> category);
+        public ModelOperationResponse InsertCategoryBac(Category category);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Flx.Domain.Domains;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
+using Flx.Shared.Responses;
 
 namespace Flx.Data.Repository.IRepository
 {
@@ -8,6 +9,6 @@ namespace Flx.Data.Repository.IRepository
     {        
         public Task<CategoryInquiryResponse> FetchAllCategoriesAsync();
         public Task<CategoryInquiryResponse> FetchCategoryByIdAsync(long categoryId);
-        public Task<CategoryInquiryResponse> InsertCategoryAsync(ModelOperationRequest<Category> category, CategoryInquiryResponse response);
+        public Task<ModelOperationResponse> InsertCategoryAsync(ModelOperationRequest<Category> category, ModelOperationResponse response);
     }
 }

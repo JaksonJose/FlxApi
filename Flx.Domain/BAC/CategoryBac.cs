@@ -3,6 +3,7 @@ using Flx.Domain.Domains;
 using Flx.Domain.IValidators;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
+using Flx.Shared.Responses;
 
 namespace Flx.Domain.BAC
 {
@@ -14,9 +15,13 @@ namespace Flx.Domain.BAC
             _categoryValidator = categoryValidator;
         }
 
-        public CategoryInquiryResponse InsertCategoryBac(ModelOperationRequest<Category> request)
+        public ModelOperationResponse InsertCategoryBac(Category category)
         {
-            CategoryInquiryResponse response = _categoryValidator.ValidateCategory(request.Model);
+            ModelOperationResponse response = _categoryValidator.ValidateCategory(category);
+            if (response.HasErrorMessages)
+            {
+                return response;
+            }
 
             return response;
         }

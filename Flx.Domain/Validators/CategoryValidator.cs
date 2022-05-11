@@ -1,15 +1,15 @@
 ﻿using Flx.Domain.Domains;
 using Flx.Domain.IValidators;
-using Flx.Domain.Responses;
+using Flx.Shared.Responses;
 using Microsoft.AspNetCore.Http;
 
 namespace Flx.Domain.Validators
 {
     public class CategoryValidator : ICategoryValidator
     {
-        public CategoryInquiryResponse ValidateCategory(Category category)
+        public ModelOperationResponse ValidateCategory(Category category)
         {
-            CategoryInquiryResponse response = new();
+            ModelOperationResponse response = new();
             
             if (category == null)
             {
@@ -19,7 +19,7 @@ namespace Flx.Domain.Validators
 
             if (string.IsNullOrEmpty(category.Name))
             {
-                response.AddErrorMessage("Category Name is required");
+                response.AddErrorMessage("Category Name is required", StatusCodes.Status400BadRequest);
             }
             
             if (string.IsNullOrEmpty(category.Description))

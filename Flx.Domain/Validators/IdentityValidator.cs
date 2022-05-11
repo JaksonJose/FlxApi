@@ -4,6 +4,8 @@ using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Domain.Validators.IValidators;
+using Flx.Shared.Responses;
+using Microsoft.AspNetCore.Http;
 
 namespace Flx.Domain.Validators
 {
@@ -19,16 +21,19 @@ namespace Flx.Domain.Validators
         {
             if (!userResponse.ResponseData.Any())
             {
-                userResponse.AddErrorMessage("user can't be null");
+                userResponse.AddErrorMessage("User not found", StatusCodes.Status404NotFound);
                 return userResponse;
             }
 
-            User user = userResponse.ResponseData[0];
+            User user = userResponse.ResponseData.First();
 
             if (!PasswordHash.PasswordHashIsMatch(auth.Password, user.PasswordHash, user.PasswordSalt))
             {
-                userResponse.AddErrorMessage("Wrong Password");
+                userResponse.AddErrorMessage("Wrong Password", StatusCodes.Status404NotFound);
+                return userResponse;
             }
+
+            userResponse.AddInfoMessage("User authenticated", StatusCodes.Status200OK);
 
             return userResponse;
         }
@@ -47,12 +52,12 @@ namespace Flx.Domain.Validators
             {
                 if (user.UserName.Equals(userRegister.UserName))
                 {
-                    userResponse.AddErrorMessage("UserName already exist");
+                    userResponse.AddErrorMessage("UserName already exist", StatusCodes.Status400BadRequest);
                 }
 
                 if (user.Email.Equals(user.Email))
                 {
-                    userResponse.AddErrorMessage("Email already exist");
+                    userResponse.AddErrorMessage("Email already exist", StatusCodes.Status400BadRequest);
                 }
 
                 if (userResponse.HasErrorMessages)
