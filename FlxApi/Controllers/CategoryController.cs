@@ -24,27 +24,27 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Category>> GetAllCategories()
+        public async Task<ActionResult> GetAllCategories()
         {
             CategoryInquiryResponse response = await _categoryRepo.FetchAllCategoriesAsync();
 
             _logger.LogInformation("Categories was successfully fetched.");
 
-            return response.ResponseData;
+            return Ok(response.ResponseData);
         }
 
         [HttpGet("{id}")]
-        public async Task<CategoryInquiryResponse> GetCategoryByIdAsync(long id)
+        public async Task<ActionResult> GetCategoryByIdAsync(long id)
         {
             CategoryInquiryResponse response = await _categoryRepo.FetchCategoryByIdAsync(id);
 
             _logger.LogInformation("Category by Id was successfully");
 
-            return response;
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<CategoryInquiryResponse> InsertCategoryAsync([FromBody] Category category)
+        public async Task<ActionResult> InsertCategoryAsync([FromBody] Category category)
         {
             ModelOperationRequest<Category> request = new(category);
 
@@ -52,12 +52,12 @@ namespace FlxApi.Controllers
 
             if (response.HasErrorMessages)
             {
-                return response;
+                return BadRequest(response);
             }
 
             response = await _categoryRepo.InsertCategoryAsync(request, response);     
 
-            return response;   
+            return Ok(response);   
         }
     }
 }

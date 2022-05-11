@@ -4,7 +4,6 @@ using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Domain.Validators.IValidators;
-using System.Text.RegularExpressions;
 
 namespace Flx.Domain.Validators
 {
