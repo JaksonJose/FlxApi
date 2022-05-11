@@ -22,9 +22,9 @@ namespace Flx.Domain.Identity
             SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = new ClaimsIdentity(new Claim[]
-                {
+                {   
                     new Claim(ClaimTypes.Email, auth.Email), // User.Identity.Name
-                    new Claim(ClaimTypes.Role, auth.Role), // User.IsInRole()
+                    new Claim(ClaimTypes.Role, auth.Role.Name), // User.IsInRole()
                 }),
                 Expires = DateTime.UtcNow.AddHours(8), //token lifetime
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(criptographedKey), SecurityAlgorithms.HmacSha256Signature),

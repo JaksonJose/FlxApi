@@ -1,10 +1,10 @@
 ﻿using Flx.Data.Repository.IRepository;
 using Flx.Domain.BAC.IBAC;
+using Flx.Domain.Identity.models;
 using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
-using Flx.Shared.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,15 +44,19 @@ namespace Flx.Api.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<UserInquiryResponse> RegisterCredential([FromBody] SignIn auth)
+        public async Task<UserInquiryResponse> RegisterCredential([FromBody] Register userRegister)
         {
-            UserInquiryResponse response = _identity.RegisterCredentialBac(auth);
-            if (response.HasErrorMessages) return response;
+            List<User> userList = await _userRepo.FetchAllUsers();         
+
+            UserInquiryResponse response = _identity.RegisterCredentialBac(userRegister, userList);
+            if (response.HasErrorMessages || !response.ResponseData.Any()) return response;
 
             ModelOperationRequest<User> request = new(response.ResponseData.FirstOrDefault());
 
             response = await _userRepo.InsertUserAsync(request);
             if (response.HasErrorMessages) return response;
+
+            response.AddInfoMessage("User successfully registered");           
 
             return response;
         }      

@@ -8,6 +8,7 @@ namespace Flx.Data.Repository.IRepository
     public interface IUserRepo
     {
         public Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<SignIn> request);
+        public Task<List<User>> FetchAllUsers();
         public Task<UserInquiryResponse> InsertUserAsync(ModelOperationRequest<User> request);
     }
 }

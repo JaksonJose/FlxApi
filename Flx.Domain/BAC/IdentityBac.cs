@@ -1,5 +1,7 @@
 ﻿using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Identity;
+using Flx.Domain.Identity.Enums;
+using Flx.Domain.Identity.models;
 using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
@@ -32,6 +34,7 @@ namespace Flx.Domain.BAC
             string token = TokenService.GenerateToken(auth);
             userResponse.Token = token;
 
+
             return userResponse;
         }
 
@@ -40,36 +43,23 @@ namespace Flx.Domain.BAC
         /// </summary>
         /// <param name="auth"></param>
         /// <returns></returns>
-        public UserInquiryResponse RegisterCredentialBac(SignIn auth)
+        public UserInquiryResponse RegisterCredentialBac(Register userRegister, List<User> userList)
         {
-            UserInquiryResponse userResponse = new();
+            // Verify if already there is a user and email registered
+            UserInquiryResponse userResponse = _identity.RegisterUserValidation(userList, userRegister);
+            if (userResponse.HasErrorMessages) return userResponse;
 
-            User user = UserBuilder(auth);
+            User user = PasswordHash.CreatePasswordHash(userRegister.Password);
+
+            user.UserName = userRegister.UserName;
+            user.Email = userRegister.Email;
+            user.EmailConfirmed = userRegister.EmailConfirmed;
+            user.FirstName = userRegister.FirstName;
+            user.LastName = userRegister.LastName;
 
             userResponse.ResponseData.Add(user);
 
             return userResponse;
-        }
-  
-        /// <summary>
-        /// Build the user object
-        /// </summary>
-        /// <param name="auth"></param>
-        /// <returns></returns>
-        private static User UserBuilder(SignIn auth)
-        {
-            User user = PasswordHash.CreatePasswordHash(auth.Password);
-
-            user.Email = auth.Email;
-
-            //TODO Resolve this
-            //Mock User
-            user.UserName = "Spiderman";
-            user.EmailConfirmed = true ;
-            user.FirstName = "Venon";
-            user.LastName = "No Way Home";
-
-            return user;
         }
     }
 }

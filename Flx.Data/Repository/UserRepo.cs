@@ -34,7 +34,7 @@ namespace Flx.Data.Repository
 
             try
             {
-                users = await this.FindAllUsers();
+                users = await this.FetchAllUsers();
 
                 List<User> selectedUser = users.FindAll(u => u.Email == request.Model.Email);
 
@@ -76,7 +76,11 @@ namespace Flx.Data.Repository
             }    
         }
 
-        private async Task<List<User>> FindAllUsers()
+        /// <summary>
+        /// Fetch all Users
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<User>> FetchAllUsers()
         {
             //Build the SQL
             SqlBuilder builder = new();
