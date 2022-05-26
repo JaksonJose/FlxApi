@@ -1,7 +1,8 @@
-﻿
+﻿using Flx.Shared.Models.IModels;
+
 namespace Flx.Shared.Requests
 {
-    public class ModelOperationRequest<T>
+    public class ModelOperationRequest<T> : BaseRequest where T : IModel
     {
         public ModelOperationRequest()
         {

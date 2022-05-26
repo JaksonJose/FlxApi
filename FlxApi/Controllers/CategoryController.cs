@@ -25,9 +25,9 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllCategories()
+        public async Task<ActionResult> FetchAllCategories()
         {
-            CategoryInquiryResponse response = await _categoryRepo.FetchAllCategoriesAsync();
+            CategoryInquiryResponse response = await _categoryRepo.FindByRequestAsync();
 
             _logger.LogInformation("Categories was successfully fetched.");
 
@@ -35,7 +35,7 @@ namespace FlxApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetCategoryByIdAsync(long id)
+        public async Task<ActionResult> FetchCategoryByIdAsync(long id)
         {
             CategoryInquiryResponse response = await _categoryRepo.FetchCategoryByIdAsync(id);
 

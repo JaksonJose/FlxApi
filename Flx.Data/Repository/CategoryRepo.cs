@@ -36,11 +36,17 @@ namespace Flx.Data.Repository
         /// Fetch All categories.
         /// </summary>
         /// <returns>InquiryResponse</returns>
-        public async Task<CategoryInquiryResponse> FetchAllCategoriesAsync()
+        public async Task<CategoryInquiryResponse> FindByRequestAsync()
         {
             CategoryInquiryResponse response = new();
-                    
-            response.ResponseData = await this.FindAll();    
+
+            //Build the SQL
+            SqlBuilder builder = new();
+            string querySql = string.Join(' ', SelectAllCategories, SelectAllSubcategories, SelectAllImages);
+            Template sqlTemplate = builder.AddTemplate(querySql);
+            string sql = sqlTemplate.RawSql;
+
+            response.ResponseData = await FindAll(sql);
 
             return response;
         }
@@ -56,7 +62,13 @@ namespace Flx.Data.Repository
 
             try
             {
-                List<Category> categories = await this.FindAll();
+                //Build the SQL
+                SqlBuilder builder = new();
+                string querySql = string.Join(' ', SelectAllCategories, SelectAllSubcategories, SelectAllImages);
+                Template sqlTemplate = builder.AddTemplate(querySql);
+                string sql = sqlTemplate.RawSql;
+
+                List<Category> categories = await this.FindAll(sql.ToString());
 
                 var selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
 
@@ -102,14 +114,9 @@ namespace Flx.Data.Repository
         /// Find all categories and match the entities
         /// </summary>
         /// <returns>List<Category></returns>
-        private async Task<List<Category>> FindAll()
+        private async Task<List<Category>> FindAll(string sql)
         {
-            //Build the SQL
-            SqlBuilder builder = new();
-            string querySql = string.Join(' ', SelectAllCategories, SelectAllSubcategories, SelectAllImages);
-            Template sqlTemplate = builder.AddTemplate(querySql);
-
-            GridReader responseData = await _dbConnection.QueryMultipleAsync(sqlTemplate.RawSql);
+            GridReader responseData = await _dbConnection.QueryMultipleAsync(sql);
 
             List<Category> categories = responseData.Read<Category>().ToList();
             List<SubCategory> subCategories = responseData.Read<SubCategory>().ToList();

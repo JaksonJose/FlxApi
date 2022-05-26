@@ -29,9 +29,9 @@ namespace Flx.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> SignInAsync([FromBody] SignIn auth)
         {     
-            ModelOperationRequest<SignIn> request = new(auth);     
+            //ModelOperationRequest<SignIn> request = new(auth);     
 
-            UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(request);
+            UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(auth);
             if (userResponse.HasExceptionMessages) return BadRequest(userResponse);                 
                
             userResponse = _identity.AuthUserBac(auth, userResponse);

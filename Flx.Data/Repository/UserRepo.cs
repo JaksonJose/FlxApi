@@ -27,7 +27,7 @@ namespace Flx.Data.Repository
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<SignIn> request)
+        public async Task<UserInquiryResponse> FetchUserByEmail(SignIn request)
         {
             UserInquiryResponse response = new();
             List<User> users = new();            
@@ -36,7 +36,7 @@ namespace Flx.Data.Repository
             {
                 users = await this.FetchAllUsers();
 
-                List<User> selectedUser = users.FindAll(u => u.Email == request.Model.Email);
+                List<User> selectedUser = users.FindAll(u => u.Email == request.Email);
 
                 response.ResponseData.AddRange(selectedUser);
 
