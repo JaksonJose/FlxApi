@@ -1,20 +1,23 @@
 ﻿using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Identity;
-using Flx.Domain.Identity.Enums;
 using Flx.Domain.Identity.models;
 using Flx.Domain.Identity.Models;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Domain.Validators.IValidators;
+using Microsoft.Extensions.Options;
 
 namespace Flx.Domain.BAC
 {
     public class IdentityBac : IIdentityBac
     {
         private readonly IIdentityValidator _identity;
-        public IdentityBac(IIdentityValidator identity)
+        private readonly KeyJWT _keyJWT;
+
+        public IdentityBac(IIdentityValidator identity, IOptions<KeyJWT> keyJWT)
         {
             _identity = identity;
+            _keyJWT = keyJWT.Value;
         }
 
         /// <summary>
@@ -32,7 +35,7 @@ namespace Flx.Domain.BAC
                 return userResponse;
             }           
 
-            string token = TokenService.GenerateToken(auth);
+            string token = auth.GenerateToken(_keyJWT);
             userResponse.Token = token;
 
             return userResponse;

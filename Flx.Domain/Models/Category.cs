@@ -1,4 +1,5 @@
 ﻿using Flx.Domain.Models;
+using System.Collections;
 
 namespace Flx.Domain.Domains
 {

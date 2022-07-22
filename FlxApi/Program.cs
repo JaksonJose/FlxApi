@@ -16,7 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // JWT Token Security Configuration
-byte[] criptographedKeyInBytes = Encoding.ASCII.GetBytes(KeyJWT.SecretKey);
+var jwtSection = configuration.GetSection("JWTSettings");
+builder.Services.Configure<KeyJWT>(jwtSection);
+KeyJWT appSettings = jwtSection.Get<KeyJWT>();
+
+byte[] criptographedKeyInBytes = Encoding.ASCII.GetBytes(appSettings.SecretKey);
 builder.Services.AddAuthentication(auth =>
 {
     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

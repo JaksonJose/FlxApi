@@ -9,14 +9,14 @@ namespace Flx.Domain.Identity
     /// <summary>
     /// This class is for generate tokens
     /// </summary>
-    public class TokenService
+    public static class TokenService
     {
-        public static string GenerateToken(SignIn auth)
+        public static string GenerateToken(this SignIn auth, KeyJWT jwtKey)
         {
             JwtSecurityTokenHandler tokenHandler = new();
             
             // Get Criptographed key
-            byte[] criptographedKey = Encoding.ASCII.GetBytes(KeyJWT.SecretKey);
+            byte[] criptographedKey = Encoding.ASCII.GetBytes(jwtKey.SecretKey);
 
             SecurityTokenDescriptor tokenDescriptor = new()
             {
