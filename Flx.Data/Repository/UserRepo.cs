@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using Flx.Data.Repository.IRepository;
 using Flx.Domain.Identity.Models;
+using Flx.Domain.Interfaces.IRepository;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
@@ -13,7 +13,16 @@ namespace Flx.Data.Repository
 {
     public class UserRepo : IUserRepo
     {
-        private static readonly string SelectAllUsers = "SELECT Id, UserName, Email, EmailConfirmed, PasswordHash, PasswordSalt, FirstName, LastName FROM FlxUser;";
+        private static readonly string SelectAllUsers = "SELECT Id," +
+            " UserName," +
+            " Email," +
+            " EmailConfirmed," +
+            " PasswordHash," +
+            " PasswordSalt," +
+            " FirstName," +
+            " LastName" +
+            " FROM FlxUser;";
+
         private static readonly string InsertUser = "INSERT INTO dbo.FlxUser(UserName, Email, EmailConfirmed, PasswordHash, PasswordSalt, FirstName, LastName) VALUES";
 
         private readonly IDbConnection _dbConnection;

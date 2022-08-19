@@ -1,7 +1,6 @@
-﻿using Flx.Data.Repository.IRepository;
-using Flx.Domain.BAC.IBAC;
-using Flx.Domain.Identity.models;
+﻿using Flx.Domain.Identity.models;
 using Flx.Domain.Identity.Models;
+using Flx.Domain.Interfaces.IBAC;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
@@ -16,26 +15,24 @@ namespace Flx.Api.Controllers
     {
         private readonly ILogger _logger;
         private readonly IIdentityBac _identity;
-        private readonly IUserRepo _userRepo;
 
-        public AuthController(ILogger<AuthController> logger, IIdentityBac identity, IUserRepo userRepo)
+        public AuthController(ILogger<AuthController> logger, IIdentityBac identity)
         {
             _logger = logger;
             _identity = identity;
-            _userRepo = userRepo;
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<ActionResult> SignInAsync([FromBody] SignIn auth)
-        {     
-            //ModelOperationRequest<SignIn> request = new(auth);     
+        { 
 
-            UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(auth);
-            if (userResponse.HasExceptionMessages) return BadRequest(userResponse);                 
-               
-            userResponse = _identity.AuthUserBac(auth, userResponse);
-            if (userResponse.HasErrorMessages) return BadRequest(userResponse);     
+            UserInquiryResponse userResponse = await _identity.AuthUserBac(auth);
+            if (userResponse.HasExceptionMessages)
+            {
+                return BadRequest(userResponse);
+            }
+                   
 
             _logger.LogInformation("User was successfully Authenticated.");
 
@@ -46,15 +43,11 @@ namespace Flx.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> RegisterCredential([FromBody] Register userRegister)
         {
-            List<User> userList = await _userRepo.FetchAllUsers();         
-
-            var response = _identity.RegisterCredentialBac(userRegister, userList);
-            if (response.HasErrorMessages) return BadRequest(response);
-
-            ModelOperationRequest<User> request = new(response.ResponseData.First());
-
-            response = await _userRepo.InsertUserAsync(request);
-            if (response.HasExceptionMessages) return BadRequest(response);           
+            UserInquiryResponse response = await _identity.RegisterCredentialBac(userRegister);
+            if (response.HasErrorMessages)
+            {
+                return BadRequest(response);
+            }     
 
             response.AddInfoMessage("User successfully registered", StatusCodes.Status201Created);           
 

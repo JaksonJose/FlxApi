@@ -16,6 +16,7 @@ namespace Flx.Domain.Identity.Models
         [DataType(DataType.Password)]
         [StringLength(100,MinimumLength = 6, ErrorMessage = "Password must have at least 6 character")]
         public string Password { get; set; } = string.Empty;
+
         public RoleEnum Role { get; set; } = RoleEnum.Student;
     }
 }

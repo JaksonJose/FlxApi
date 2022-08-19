@@ -1,8 +1,8 @@
 using Flx.Data.Repository;
-using Flx.Data.Repository.IRepository;
 using Flx.Domain.BAC;
-using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Identity;
+using Flx.Domain.Interfaces.IBAC;
+using Flx.Domain.Interfaces.IRepository;
 using Flx.Domain.IValidators;
 using Flx.Domain.Validators;
 using Flx.Domain.Validators.IValidators;
@@ -39,7 +39,7 @@ builder.Services.AddAuthentication(auth =>
 });
 
 // Add services to the container.
-builder.Services.AddCors(opt => opt.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:4200", "http://http://192.168.0.3:4200").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+builder.Services.AddCors(opt => opt.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:4200", "http://192.168.0.204:3000").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 // Inject IDbConnection, with implemantation from SqlConnection class
 builder.Services.AddTransient<IDbConnection>(config => new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
@@ -63,6 +63,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseCors();
 

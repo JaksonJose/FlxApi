@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using Flx.Data.Repository.IRepository;
 using Flx.Domain.Domains;
+using Flx.Domain.Interfaces.IRepository;
 using Flx.Domain.Models;
 using Flx.Domain.Responses;
 using Flx.Shared.Requests;
@@ -68,7 +68,7 @@ namespace Flx.Data.Repository
                 Template sqlTemplate = builder.AddTemplate(querySql);
                 string sql = sqlTemplate.RawSql;
 
-                List<Category> categories = await this.FindAll(sql.ToString());
+                List<Category> categories = await this.FindAll(sql);
 
                 var selectedCategory = categories.Where(c => c.Id == categoryId).FirstOrDefault();
 
@@ -121,6 +121,7 @@ namespace Flx.Data.Repository
             List<Category> categories = responseData.Read<Category>().ToList();
             List<SubCategory> subCategories = responseData.Read<SubCategory>().ToList();
             List<Image> images = responseData.Read<Image>().ToList();
+
 
             categories.ForEach(c =>
             {

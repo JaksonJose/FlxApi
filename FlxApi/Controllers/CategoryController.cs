@@ -1,9 +1,7 @@
 ﻿using Flx.Api.Controllers;
-using Flx.Data.Repository.IRepository;
-using Flx.Domain.BAC.IBAC;
 using Flx.Domain.Domains;
+using Flx.Domain.Interfaces.IBAC;
 using Flx.Domain.Responses;
-using Flx.Shared.Requests;
 using Flx.Shared.Responses;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,20 +12,22 @@ namespace FlxApi.Controllers
     public class CategoryController : BaseController
     {
         private readonly ILogger<CategoryController> _logger;
-        private readonly ICategoryRepo _categoryRepo;
         private readonly ICategoryBac _categoryBac;
 
-        public CategoryController(ICategoryRepo categoryRepo, ICategoryBac categoryBac, ILogger<CategoryController> logger)
+        public CategoryController(ICategoryBac categoryBac, ILogger<CategoryController> logger)
         {
             _logger = logger;
-            _categoryRepo = categoryRepo;
             _categoryBac = categoryBac;
         }
 
         [HttpGet]
         public async Task<ActionResult> FetchAllCategories()
         {
-            CategoryInquiryResponse response = await _categoryRepo.FindByRequestAsync();
+            CategoryInquiryResponse response = await _categoryBac.FetchAllCategoriesAsync();
+            if(response.HasErrorMessages)
+            {
+                BadRequest(response);
+            }
 
             _logger.LogInformation("Categories was successfully fetched.");
 
@@ -37,7 +37,11 @@ namespace FlxApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FetchCategoryByIdAsync(long id)
         {
-            CategoryInquiryResponse response = await _categoryRepo.FetchCategoryByIdAsync(id);
+            CategoryInquiryResponse response = await _categoryBac.FetchCategoryByIdAsync(id);
+            if(response.HasErrorMessages)
+            {
+                BadRequest(response);
+            }
 
             _logger.LogInformation("Category by Id was successfully");
 
@@ -46,15 +50,12 @@ namespace FlxApi.Controllers
 
         [HttpPost]
         public async Task<ActionResult> InsertCategoryAsync([FromBody] Category category)
-        {     
-            
-            ModelOperationResponse response = _categoryBac.InsertCategoryBac(category);
-            if (response.HasErrorMessages) return BadRequest(response);            
-
-            ModelOperationRequest<Category> request = new(category);
-
-            response = await _categoryRepo.InsertCategoryAsync(request, response);
-            if (response.HasExceptionMessages) return BadRequest(response);
+        {
+            ModelOperationResponse response = await _categoryBac.InsertCategory(category);
+            if (response.HasErrorMessages) 
+            { 
+                return BadRequest(response); 
+            }           
 
             response.AddInfoMessage("Category Created", StatusCodes.Status201Created);
 

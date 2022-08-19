@@ -4,6 +4,7 @@ CREATE TABLE dbo.Category (
 	[ImageId]		INT FOREIGN KEY REFERENCES Image(Id) NULL,	
 	[Name]			NVARCHAR(256),
 	[Description]	TEXT,
+
 	CreateDateTimeUTC datetime2 default getutcdate(),
 	ModifyDateTimeUTC datetime2 default getutcdate(),
 );
