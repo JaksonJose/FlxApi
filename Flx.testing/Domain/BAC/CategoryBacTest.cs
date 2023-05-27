@@ -1,12 +1,10 @@
 ﻿using FluentAssertions;
-using Flx.Domain.BAC;
-using Flx.Domain.Domains;
-using Flx.Domain.Responses;
-using Flx.Shared.Requests;
+using Flx.Core.BAC;
+using Flx.Core.Models;
 using Flx.Shared.Responses;
 using NUnit.Framework;
 
-namespace Flx.testing.Domain.BAC
+namespace Flx.testing.Core.BAC
 {
     [TestFixture]
     public class CategoryBacTest
@@ -20,7 +18,7 @@ namespace Flx.testing.Domain.BAC
         }
 
         [Test]
-        public void InsertCategoryBacSuccessful()
+        public async void InsertCategoryBacSuccessful()
         {
             //Arrange
             Category category = new()
@@ -30,10 +28,8 @@ namespace Flx.testing.Domain.BAC
                 Description = "Here you will find everything about tecnologies",
             };
 
-            //ModelOperationRequest<Category> request = new(category);
-
             //Act
-            ModelOperationResponse response = _categoryBac.InsertCategoryBac(category);
+            ModelOperationResponse response = await _categoryBac.InsertCategoryAsync(category);
 
             //Asset
             response.HasErrorMessages.Should().BeFalse();

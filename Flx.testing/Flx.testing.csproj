@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Flx.Domain\Flx.Core.csproj" />
+    <ProjectReference Include="..\Flx.Core\Flx.Core.csproj" />
   </ItemGroup>
 
 </Project>
