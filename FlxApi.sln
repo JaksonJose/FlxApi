@@ -5,13 +5,13 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Api", "FlxApi\Flx.Api.csproj", "{99358A19-7110-4DB1-8288-36C67FDFD90B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Domain", "Flx.Domain\Flx.Domain.csproj", "{9B798F12-6FA1-4B78-ABB2-197C6813F3B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Core", "Flx.Domain\Flx.Core.csproj", "{9B798F12-6FA1-4B78-ABB2-197C6813F3B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Infrastructure", "Flx.Data\Flx.Infrastructure.csproj", "{75E7AD11-1FF5-4C2E-9A79-170119F4844B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Data", "Flx.Data\Flx.Data.csproj", "{75E7AD11-1FF5-4C2E-9A79-170119F4844B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.Shared", "Flx.Shared\Flx.Shared.csproj", "{CACD4A58-3165-4374-9858-C0FA6E20FFAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flx.testing", "Flx.testing\Flx.testing.csproj", "{46EFB4D5-02F8-4A63-B53E-B1693F38A1F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flx.testing", "Flx.testing\Flx.testing.csproj", "{46EFB4D5-02F8-4A63-B53E-B1693F38A1F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
