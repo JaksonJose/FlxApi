@@ -1,22 +1,17 @@
-API for serve CourseFlx client.
+# Project API for serve CourseFlx client.
 
-This application has been built basing on video course platform where you can register and choose courses that you choose. There are three roles with different permissions (Super Admin, Admin and Student). When user sign up it is Student role by default, the admin must be registered by the Super Admin.
+#### Objective
+Studies about simple authentication with JWT without using the Identity framework.
+Build and use a auxiliary request and response library.
 
-This application is just for study case, hope you like :)
+### Architecture
+A monolite API Restfull based on DDD according Microsoft .NET Documentation.
 
+###  Application
+This application is designed as a video course platform were the the user can register, sign in, sign out. The default role is students. But it must have admin later.
 
-### Study base
-- DotNet Core
-- RestFul API
-- Dapper
-- SQL Server
-- DDD Domain Driven-Disign
-- Design Patterns
-- SOLID
-- Microservices
-- JWT Authentications
-- Custom Library
-- Unity Test: Nunit, Fluent Assertions, Mock
+### Observation
+As this code is just for studing a specific subject and it was archieved, I really don't know if I'll maintain, upgrade or if I'll finish the whole project.
 
 ### Instructions
 As I do not create a migration for now, create a Database and set it to connection string and then run scripts located into script folder in the Infraestructure layer. 
