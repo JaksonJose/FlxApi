@@ -24,7 +24,7 @@ namespace Flx.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> SignInAsync([FromBody] SignIn auth)
         { 
-            UserInquiryResponse userResponse = await _identity.AuthUserBac(auth);
+            UserInquiryResponse userResponse = await _identity.AuthUserBacAsync(auth);
             if (userResponse.HasExceptionMessages)
             {
                 return BadRequest(userResponse);
@@ -39,7 +39,7 @@ namespace Flx.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> RegisterCredential([FromBody] Register userRegister)
         {
-            UserInquiryResponse response = await _identity.RegisterCredentialBac(userRegister);
+            UserInquiryResponse response = await _identity.RegisterCredentialBacAsync(userRegister);
             if (response.HasErrorMessages)
             {
                 return BadRequest(response);

@@ -47,7 +47,7 @@ namespace Flx.Core.BAC
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public async Task<ModelOperationResponse> InsertCategory(Category category)
+        public async Task<ModelOperationResponse> InsertCategoryAsync(Category category)
         {
             ModelOperationRequest<Category> request = new(category);
 

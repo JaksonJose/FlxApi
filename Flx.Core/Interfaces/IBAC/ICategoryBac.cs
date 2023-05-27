@@ -10,6 +10,6 @@ namespace Flx.Core.Interfaces.IBAC
 
         public Task<CategoryInquiryResponse> FetchCategoryByIdAsync(long id);
 
-        public Task<ModelOperationResponse> InsertCategory(Category category);
+        public Task<ModelOperationResponse> InsertCategoryAsync(Category category);
     }
 }

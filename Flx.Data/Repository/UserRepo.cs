@@ -34,7 +34,7 @@ namespace Flx.Data.Repository
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<User> request)
+        public async Task<UserInquiryResponse> FetchUserByEmailAsync(ModelOperationRequest<User> request)
         {
             UserInquiryResponse response = new();        
 
@@ -95,7 +95,7 @@ namespace Flx.Data.Repository
         /// Fetch all Users
         /// </summary>
         /// <returns></returns>
-        public async Task<List<User>> FetchAllUsers()
+        public async Task<List<User>> FetchAllUsersAsync()
         {
             //Build the SQL
             SqlBuilder builder = new();

@@ -6,8 +6,8 @@ namespace Flx.Core.Interfaces.IBAC
 {
     public interface IIdentityBac
     {
-        public Task<UserInquiryResponse> AuthUserBac(SignIn auth);
+        public Task<UserInquiryResponse> AuthUserBacAsync(SignIn auth);
 
-        public Task<UserInquiryResponse> RegisterCredentialBac(Register userRegister);
+        public Task<UserInquiryResponse> RegisterCredentialBacAsync(Register userRegister);
     }
 }

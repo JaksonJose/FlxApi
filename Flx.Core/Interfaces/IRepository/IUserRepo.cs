@@ -7,9 +7,9 @@ namespace Flx.Core.Interfaces.IRepository
 {
     public interface IUserRepo
     {
-        public Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<User> request);
+        public Task<UserInquiryResponse> FetchUserByEmailAsync(ModelOperationRequest<User> request);
 
-        public Task<List<User>> FetchAllUsers();
+        public Task<List<User>> FetchAllUsersAsync();
 
         public Task<UserInquiryResponse> InsertUserAsync(ModelOperationRequest<User> request);
     }

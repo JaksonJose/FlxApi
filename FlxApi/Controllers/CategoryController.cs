@@ -51,7 +51,7 @@ namespace FlxApi.Controllers
         [HttpPost]
         public async Task<ActionResult> InsertCategoryAsync([FromBody] Category category)
         {
-            ModelOperationResponse response = await _categoryBac.InsertCategory(category);
+            ModelOperationResponse response = await _categoryBac.InsertCategoryAsync(category);
             if (response.HasErrorMessages) 
             { 
                 return BadRequest(response); 

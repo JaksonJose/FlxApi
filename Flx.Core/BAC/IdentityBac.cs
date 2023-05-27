@@ -31,7 +31,7 @@ namespace Flx.Core.BAC
         /// <param name="auth"></param>
         /// <param name="userResponse"></param>
         /// <returns></returns>
-        public async Task<UserInquiryResponse> AuthUserBac(SignIn auth)
+        public async Task<UserInquiryResponse> AuthUserBacAsync(SignIn auth)
         {
             User user = new()
             {
@@ -40,7 +40,7 @@ namespace Flx.Core.BAC
 
             ModelOperationRequest<User> request = new(user);
 
-            UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(request);
+            UserInquiryResponse userResponse = await _userRepo.FetchUserByEmailAsync(request);
 
             userResponse = _identity.UserNotExists(userResponse);
             if (userResponse.HasValidationMessages)
@@ -67,7 +67,7 @@ namespace Flx.Core.BAC
         /// </summary>
         /// <param name="auth">Register object</param>
         /// <returns>User response</returns>
-        public async Task<UserInquiryResponse> RegisterCredentialBac(Register userRegister)
+        public async Task<UserInquiryResponse> RegisterCredentialBacAsync(Register userRegister)
         {
             User user = new()
             {
@@ -76,7 +76,7 @@ namespace Flx.Core.BAC
 
             ModelOperationRequest<User> request = new(user);
 
-            UserInquiryResponse userResponse = await _userRepo.FetchUserByEmail(request); 
+            UserInquiryResponse userResponse = await _userRepo.FetchUserByEmailAsync(request); 
             userResponse = _identity.UserExists(userResponse);
             if (userResponse.HasValidationMessages)
             {
@@ -109,7 +109,7 @@ namespace Flx.Core.BAC
                 return userResponse;
             }
 
-            userResponse = await _userRepo.FetchUserByEmail(request);
+            userResponse = await _userRepo.FetchUserByEmailAsync(request);
             userResponse.Token = user.GenerateToken(_keyJWT);
 
             return userResponse;
