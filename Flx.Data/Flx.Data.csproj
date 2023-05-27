@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flx.Core\Flx.Core.csproj" />
     <ProjectReference Include="..\Flx.Domain\Flx.Core.csproj" />
     <ProjectReference Include="..\Flx.Shared\Flx.Shared.csproj" />
   </ItemGroup>

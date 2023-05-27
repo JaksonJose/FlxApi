@@ -1,9 +1,7 @@
-﻿using Flx.Domain.Identity.models;
-using Flx.Domain.Identity.Models;
-using Flx.Domain.Interfaces.IBAC;
-using Flx.Domain.Models;
-using Flx.Domain.Responses;
-using Flx.Shared.Requests;
+﻿using Flx.Core.Identity.models;
+using Flx.Core.Identity.Models;
+using Flx.Core.Interfaces.IBAC;
+using Flx.Core.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,14 +24,12 @@ namespace Flx.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> SignInAsync([FromBody] SignIn auth)
         { 
-
             UserInquiryResponse userResponse = await _identity.AuthUserBac(auth);
             if (userResponse.HasExceptionMessages)
             {
                 return BadRequest(userResponse);
             }
                    
-
             _logger.LogInformation("User was successfully Authenticated.");
 
             return Ok(userResponse);            

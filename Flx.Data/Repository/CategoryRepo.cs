@@ -1,8 +1,7 @@
 ﻿using Dapper;
-using Flx.Domain.Domains;
-using Flx.Domain.Interfaces.IRepository;
-using Flx.Domain.Models;
-using Flx.Domain.Responses;
+using Flx.Core.Interfaces.IRepository;
+using Flx.Core.Models;
+using Flx.Core.Responses;
 using Flx.Shared.Requests;
 using Flx.Shared.Responses;
 using Microsoft.AspNetCore.Http;

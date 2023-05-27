@@ -1,8 +1,7 @@
 ﻿using Dapper;
-using Flx.Domain.Identity.Models;
-using Flx.Domain.Interfaces.IRepository;
-using Flx.Domain.Models;
-using Flx.Domain.Responses;
+using Flx.Core.Interfaces.IRepository;
+using Flx.Core.Models;
+using Flx.Core.Responses;
 using Flx.Shared.Requests;
 using Microsoft.AspNetCore.Http;
 using System.Data;
@@ -16,12 +15,11 @@ namespace Flx.Data.Repository
         private static readonly string SelectAllUsers = "SELECT Id," +
             " UserName," +
             " Email," +
-            " EmailConfirmed," +
             " PasswordHash," +
             " PasswordSalt," +
             " FirstName," +
             " LastName" +
-            " FROM FlxUser;";
+            " FROM FlxUser";
 
         private static readonly string InsertUser = "INSERT INTO dbo.FlxUser(UserName, Email, EmailConfirmed, PasswordHash, PasswordSalt, FirstName, LastName) VALUES";
 
@@ -32,22 +30,30 @@ namespace Flx.Data.Repository
         }
 
         /// <summary>
-        /// Fetch user comparing by email
+        /// Fetches user comparing by email
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<UserInquiryResponse> FetchUserByEmail(SignIn request)
+        public async Task<UserInquiryResponse> FetchUserByEmail(ModelOperationRequest<User> request)
         {
-            UserInquiryResponse response = new();
-            List<User> users = new();            
+            UserInquiryResponse response = new();        
 
             try
             {
-                users = await this.FetchAllUsers();
+                //Build the SQL
+                SqlBuilder builder = new();
+                string querySql = string.Join(' ', SelectAllUsers, $"WHERE Email = '{request.Model.Email}'");
+                Template sqlTemplate = builder.AddTemplate(querySql);
 
-                List<User> selectedUser = users.FindAll(u => u.Email == request.Email);
+                IEnumerable<User> userResponse = await _dbConnection.QueryAsync<User>(sqlTemplate.RawSql);
+                User? user = userResponse.FirstOrDefault();
 
-                response.ResponseData.AddRange(selectedUser);
+                if (user != null)
+                {
+                    response.ResponseData.Add(user);
+
+                    return response;
+                }
 
                 return response;
             }

@@ -1,7 +1,7 @@
 ﻿using Flx.Api.Controllers;
-using Flx.Domain.Domains;
-using Flx.Domain.Interfaces.IBAC;
-using Flx.Domain.Responses;
+using Flx.Core.Interfaces.IBAC;
+using Flx.Core.Models;
+using Flx.Core.Responses;
 using Flx.Shared.Responses;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +31,7 @@ namespace FlxApi.Controllers
 
             _logger.LogInformation("Categories was successfully fetched.");
 
-            return Ok(response.ResponseData);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
